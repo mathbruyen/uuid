@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Definition of the interface used for representing a UUID.
+ * Definition of the interface used for representing a UUID
  *
  * PHP version 5
  *
@@ -39,13 +39,12 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @category   TODO
  * @package    UUID
  * @author     Mathieu Bruyen <code@mais-h.eu>
  * @copyright  2010 Mathieu Bruyen <code@mais-h.eu>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @version    SVN: $Id$
- * @link       TODO
+ * @link       http://www.mais-h.eu/doc/index.php/UUID_php_package
  * @since      File available since Release 1.0
  */
 
@@ -69,13 +68,12 @@
  * integer. This is of use in database identifiers for example. The base used
  * to display is to be chosen.
  *
- * @category   TODO
  * @package    UUID
  * @author     Mathieu Bruyen <code@mais-h.eu>
  * @copyright  2010 Mathieu Bruyen <code@mais-h.eu>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @version    Release: @package_version@
- * @link       TODO
+ * @link       http://www.mais-h.eu/doc/index.php/UUID_php_package
  * @since      Class available since Release 1.0
  */
 interface UUID_Uuid
@@ -148,6 +146,19 @@ interface UUID_Uuid
      * @since Method available since Release 1.0
      */
     public function toRawInt($base);
+    
+    /**
+     * Returns the size of the raw integer of the UUID
+     * 
+     * Indicates the size of the raw integer in number of bits
+     * to know if it fit where you need them
+     *
+     * @return int the size of the raw integer in number of bits
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function getRawIntBitNumber();
 }
 
 /*

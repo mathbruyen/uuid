@@ -3,13 +3,8 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Loading and initialization of the UUID package
+ * Definition of the exception class of all exceptions throwed in the UUID package
  *
- * This script loads all the required classes and initialize
- * the factory to a default configuration that can then be
- * overriden. The package can then be used to generate Uuids that
- * follow RFC4122.
- * 
  * PHP version 5
  *
  * Copyright (c) 2002-2010, Mathieu Bruyen <code@mais-h.eu>.
@@ -44,15 +39,33 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @category   TODO
  * @package    UUID
  * @author     Mathieu Bruyen <code@mais-h.eu>
  * @copyright  2010 Mathieu Bruyen <code@mais-h.eu>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @version    SVN: $Id$
- * @link       TODO
+ * @link       http://www.mais-h.eu/doc/index.php/UUID_php_package
  * @since      File available since Release 1.0
  */
+
+require_once('PEAR/Exception.php');
+
+/**
+ * Parent class of all exceptions throwed in the UUID package
+ *
+ * No special bahavior is changed from PEAR_Exception.
+ *
+ * @package    UUID
+ * @author     Mathieu Bruyen <code@mais-h.eu>
+ * @copyright  2010 Mathieu Bruyen <code@mais-h.eu>
+ * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ * @version    Release: @package_version@
+ * @link       http://www.mais-h.eu/doc/index.php/UUID_php_package
+ * @since      Class available since Release 1.0
+ */
+class UUID_Exception extends PEAR_Exception
+{
+}
 
 /*
  * Local variables:
