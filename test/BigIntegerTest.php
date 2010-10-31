@@ -7,7 +7,7 @@
  *
  * PHP version 5
  *
- * Copyright (c) 2002-2010, Mathieu Bruyen <code@mais-h.eu>.
+ * Copyright (c) 2010, Mathieu Bruyen <code@mais-h.eu>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,8 +69,6 @@ require_once realpath(dirname(__FILE__)) . '/../BigIntegerUtil.php';
  */
 class BigIntegerTest extends PHPUnit_Framework_TestCase
 {
-    ///TODO test other methods
-    
     /**
      * Test the integer slicing when no length is specified
      *
