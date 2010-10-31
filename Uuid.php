@@ -52,22 +52,36 @@
  * Inteface of object representation of a Uuid
  *
  * Every UUID inherit from this interface. It can be retrieved as a string
- * with:
- * <code>$uuid->__toString()</code>
- * A simpler way to retrieve it as a string is to simply put the object into
- * double quotes like
- * <code>"{$uuid}"</code>
- * because of the use of this magic method.
+ * with the magic method __toString:
+ * <code>
+ * $str = $uuid->__toString();
+ * $str = "{$uuid}";
+ * </code>
  * 
  * It can also be retrieved as a Uniform Ressource Name (URN) with
- * <code>$uuid->toURN()</code>
+ * <code>
+ * $urnString = $uuid->toURN();
+ * </code>
  * 
- * Finally there is a way to retrive it as an integer:
- * <code>$uuid->toRawInt($base)</code>
- * It is thus represented in a string due to the expected large length of the
- * integer. This is of use in database identifiers for example. The base used
- * to display is to be chosen.
- *
+ * There is a way to retrive it as an integer:
+ * <code>
+ * $intRessource = $uuid->toRawInt();
+ * 
+ * $bitString = $intRessource->toBits();
+ * $hexString = $intRessource->toHex();
+ * </code>
+ * It is thus represented as a Math_BigInteger (see PEAR package Math_BigInteger) due
+ * to the expected large length of the integer. This is of use in database identifiers
+ * for example.
+ * 
+ * Finally there are two utility methods indicating the layout of the UUID through its variant
+ * returned as a binary string, and the size of its integer representation in number of bits.
+ * <code>
+ * $variant = $uuid->getVariant();
+ * $intSize = $uuid->getRawIntBitNumber();
+ * </code>
+ * These ones should be independant of the instance, and behave like static method.
+ * 
  * @package    UUID
  * @author     Mathieu Bruyen <code@mais-h.eu>
  * @copyright  2010 Mathieu Bruyen <code@mais-h.eu>
@@ -83,8 +97,7 @@ interface UUID_Uuid
      *
      * The variant is a string composed of 0s and 1s that corresponds to
      * the layout of the UUID. For example a UUID following RFC4122 must
-     * return the variant
-     * <code>"10"</code>
+     * return the variant "10".
      * 
      * @return string the variant of the UUID
      *
@@ -99,7 +112,7 @@ interface UUID_Uuid
      * The string representation does not include the URN scheme and
      * follows the layout related to the variant of the UUID. For
      * example a RFC4222 UUID should look like
-     * <code>"f81d4fae-7dec-11d0-a765-00a0c91e6bf6"</code>
+     * "f81d4fae-7dec-11d0-a765-00a0c91e6bf6".
      * 
      * @return string the string representation of the UUID
      *
@@ -115,7 +128,7 @@ interface UUID_Uuid
      * The URN representation of the UUID should be the URN scheme
      * followed by the string representation of the UUID. For
      * example a RFC4222 UUID should look like
-     * <code>"urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6"</code>
+     * "urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6"
      *
      * @return string the URN representation of the UUID
      *
@@ -128,30 +141,21 @@ interface UUID_Uuid
     /**
      * Returns a raw integer representation of the UUID
      * 
-     * The raw integer is returned as a string due to its expected
-     * length. The base used in the string representation is
-     * chosen. The accepted values for the base is subject to vary
-     * between implementations, but the classical 2, 10 and 16 shoud
-     * be available. For example a RFC4122 UUID displayed in base 16
-     * can look like
-     * <code>"f81d4fae7dec11d0a76500a0c91e6bf6"</code>
-     * The translation from UUID to raw integer is not documented so
-     * it is up to the implementator.
+     * The raw integer is returned as a Math_BigInteger due to its
+     * excected large width. Math_BigInteger comes from the PEAR package
+     * of the same name.
      *
-     * @param int $base the base used to convert the integer into a string
-     * @return string the UUID represented through an integer encoded
-     *              in a string
+     * @return Math_BigInteger the integer representing the UUID
      *
      * @access public
      * @since Method available since Release 1.0
      */
-    public function toRawInt($base);
+    public function toRawInt();
     
     /**
      * Returns the size of the raw integer of the UUID
      * 
-     * Indicates the size of the raw integer in number of bits
-     * to know if it fit where you need them
+     * Indicates the size of the raw integer in number of bits.
      *
      * @return int the size of the raw integer in number of bits
      *
