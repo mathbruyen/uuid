@@ -39,13 +39,14 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    UUID
- * @author     Mathieu Bruyen <code@mais-h.eu>
- * @copyright  2010 Mathieu Bruyen <code@mais-h.eu>
- * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id$
- * @link       http://www.mais-h.eu/doc/index.php/UUID_php_package
- * @since      File available since Release 1.0
+ * @category  Structures
+ * @package   UUID
+ * @author    Mathieu Bruyen <code@mais-h.eu>
+ * @copyright 2010 Mathieu Bruyen <code@mais-h.eu>
+ * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
+ * @version   SVN: $Id$
+ * @link      http://www.mais-h.eu/doc/index.php/UUID_php_package
+ * @since     File available since Release 1.0
  */
 
 /**
@@ -71,24 +72,26 @@
  * $hexString = $intRessource->toHex();
  * </code>
  * It is thus represented as a Math_BigInteger (see PEAR package Math_BigInteger) due
- * to the expected large length of the integer. This is of use in database identifiers
- * for example.
+ * to the expected large length of the integer. This is of use in database
+ * identifiers for example.
  * 
- * Finally there are two utility methods indicating the layout of the UUID through its variant
- * returned as a binary string, and the size of its integer representation in number of bits.
+ * Finally there are two utility methods indicating the layout of the UUID through
+ * its variant returned as a binary string, and the size of its integer
+ * representation in number of bits.
  * <code>
  * $variant = $uuid->getVariant();
  * $intSize = $uuid->getRawIntBitNumber();
  * </code>
  * These ones should be independant of the instance, and behave like static method.
  * 
- * @package    UUID
- * @author     Mathieu Bruyen <code@mais-h.eu>
- * @copyright  2010 Mathieu Bruyen <code@mais-h.eu>
- * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: @package_version@
- * @link       http://www.mais-h.eu/doc/index.php/UUID_php_package
- * @since      Class available since Release 1.0
+ * @category  Structures
+ * @package   UUID
+ * @author    Mathieu Bruyen <code@mais-h.eu>
+ * @copyright 2010 Mathieu Bruyen <code@mais-h.eu>
+ * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
+ * @version   Release: @package_version@
+ * @link      http://www.mais-h.eu/doc/index.php/UUID_php_package
+ * @since     Class available since Release 1.0
  */
 interface UUID_Uuid
 {

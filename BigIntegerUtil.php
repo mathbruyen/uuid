@@ -39,20 +39,21 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    UUID
- * @author     Mathieu Bruyen <code@mais-h.eu>
- * @copyright  2010 Mathieu Bruyen <code@mais-h.eu>
- * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id$
- * @link       http://www.mais-h.eu/doc/index.php/UUID_php_package
- * @since      File available since Release 1.0
+ * @category  Structures
+ * @package   UUID
+ * @author    Mathieu Bruyen <code@mais-h.eu>
+ * @copyright 2010 Mathieu Bruyen <code@mais-h.eu>
+ * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
+ * @version   SVN: $Id$
+ * @link      http://www.mais-h.eu/doc/index.php/UUID_php_package
+ * @since     File available since Release 1.0
  */
 
 // Load Math_BigInteger package
-require_once('Math/BigInteger.php');
+require_once 'Math/BigInteger.php';
 
 //Load exception class
-require_once(realpath(dirname(__FILE__)) . '/Exception.php');
+require_once realpath(dirname(__FILE__)) . '/Exception.php';
 
 /**
  * Class helping manipulation of arbitrary length integers
@@ -61,13 +62,14 @@ require_once(realpath(dirname(__FILE__)) . '/Exception.php');
  * class defines some functions to help their manipulation toward use in
  * UUIDs.
  * 
- * @package    UUID
- * @author     Mathieu Bruyen <code@mais-h.eu>
- * @copyright  2010 Mathieu Bruyen <code@mais-h.eu>
- * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: @package_version@
- * @link       http://www.mais-h.eu/doc/index.php/UUID_php_package
- * @since      Class available since Release 1.0
+ * @category  Structures
+ * @package   UUID
+ * @author    Mathieu Bruyen <code@mais-h.eu>
+ * @copyright 2010 Mathieu Bruyen <code@mais-h.eu>
+ * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
+ * @version   Release: @package_version@
+ * @link      http://www.mais-h.eu/doc/index.php/UUID_php_package
+ * @since     Class available since Release 1.0
  */
 
 class UUID_BigIntegerUtil
@@ -98,8 +100,10 @@ class UUID_BigIntegerUtil
      * </code>
      *
      * @param Math_BigInteger $integer the integer the slices is extracted from
-     * @param int $offset the bit number to start with
-     * @param int $length the number of bits to keep. All leading bits will be kept if not specified.
+     * @param int             $offset  the bit number to start with
+     * @param int             $length  the number of bits to keep. All leading
+     *                                  bits will be kept if not specified.
+     * 
      * @return UUID_BigInteger the integer defined by the slice of bits
      *
      * @access public
@@ -117,9 +121,9 @@ class UUID_BigIntegerUtil
     /**
      * Sets arbitrary bits in a copy of the integer and returns it
      * 
-     * A copy of the given integer is returned, where bits have been modified to reflect
-     * those of the value given. The the index of highest bit modified (indexes start at 0)
-     * is the one given in parameters.
+     * A copy of the given integer is returned, where bits have been modified to
+     * reflect those of the value given. The the index of highest bit modified
+     * (indexes start at 0) is the one given in parameters.
      * <code>
      * $i = new Math_BigInteger('101100111000', 2);
      * $value = new Math_BigInteger('101', 2);
@@ -128,7 +132,8 @@ class UUID_BigIntegerUtil
      * echo $m->toBits(), "\n";//echo "101101011000"
      * </code>
      * 
-     * If the integer is too short, 0s are padded left before the value is inserted:
+     * If the integer is too short, 0s are padded left before the value is
+     * inserted:
      * <code>
      * $i = new Math_BigInteger('11', 2);
      * $value = new Math_BigInteger('10100000', 2);
@@ -137,19 +142,28 @@ class UUID_BigIntegerUtil
      * echo $m->toBits(), "\n";//echo "101000001"
      * </code>
      * 
-     * If the value is too large to fit into the remaining bits an exception is throwed.
+     * If the value is too large to fit into the remaining bits an exception is
+     * throwed.
      * <code>
      * $i = new Math_BigInteger('101100111000', 2);
      * $value = new Math_BigInteger('10100000', 2);
      * 
-     * $m = UUID_BigIntegerUtil::setBits($i, $value, 6);//UUID_Exception throwed
+     * $m = UUID_BigIntegerUtil::setBits($i, $value, 6);
+     * //UUID_Exception throwed
      * </code>
      *
-     * @param Math_BigInteger $integer the original integer that will be copied and have bits modified
-     * @param Math_BigInteger $valueSet the value defining the bits to insert
-     * @param int $highBitNumber the index of the highest bit (indexes start at 0) that is modified
-     * @return UUID_BigInteger a copy of the integer with corresponding bits modified
-     * @throws UUID_Exception in case the number of bits in value is larger than the index where to start inserting bits
+     * @param Math_BigInteger $integer       the original integer that will be
+     *                                          copied and have bits modified
+     * @param Math_BigInteger $valueSet      the value defining the bits to
+     *                                          insert
+     * @param int             $highBitNumber the index of the highest bit
+     *                                          (indexes start at 0) that is
+     *                                          modified
+     * 
+     * @return UUID_BigInteger a copy of the integer with corresponding bits
+     *                          modified
+     * @throws UUID_Exception in case the number of bits in value is larger
+     *                          than the index where to start inserting bits
      *
      * @access public
      * @since Method available since Release 1.0
@@ -159,16 +173,27 @@ class UUID_BigIntegerUtil
         // Minimum number of bits that should be present (bits start at 0)
         $minBitCount = $highBitNumber + 1;
         
-        // Convert the current representation in an array of bits containing enough bits
-        $resultBitArray = str_split(str_pad($integer->toBits(), $minBitCount, '0', STR_PAD_LEFT));
+        // Convert the current representation in an array of bits containing
+        // enough bits
+        $resultBitArray = str_split(
+            str_pad(
+                $integer->toBits(),
+                $minBitCount,
+                '0',
+                STR_PAD_LEFT
+            )
+        );
         
-        // The position in the array where the highest bit of value set will be inserted
+        // The position in the array where the highest bit of value set will be
+        // inserted
         $startPosition = count($resultBitArray) - $minBitCount;
         
-        // Assert that the value is not too large compared to the high bit number
+        // Assert that the value is not too large compared to the high bit
+        // number
         $valueBitArray = str_split($valueSet->toBits());
-        if(count($valueBitArray) > $minBitCount){
-            throw new UUID_Exception('The high bit number must be greater than the bit count of the value');
+        if (count($valueBitArray) > $minBitCount) {
+            throw new UUID_Exception(
+                'High bit number is smaller than bit number in value');
         }
         
         // Insert the bits
@@ -189,13 +214,15 @@ class UUID_BigIntegerUtil
      * If the string has the correct length it is simply returned:
      * <code>
      * $i = new Math_BigInteger('0xabcd', 16);
-     * echo UUID_BigIntegerUtil::toHexWithFixedLength($i, 4), "\n";//echo "abcd"
+     * echo UUID_BigIntegerUtil::toHexWithFixedLength($i, 4), "\n";
+     * //echo "abcd"
      * </code>
      * 
      * If the string is too short 0s are padded left:
      * <code>
      * $i = new Math_BigInteger('0xabcd', 16);
-     * echo UUID_BigIntegerUtil::toHexWithFixedLength($i, 8), "\n";//echo "0000abcd"
+     * echo UUID_BigIntegerUtil::toHexWithFixedLength($i, 8), "\n";
+     * //echo "0000abcd"
      * </code>
      * 
      * If the string is too long an exception is throwed:
@@ -204,10 +231,15 @@ class UUID_BigIntegerUtil
      * UUID_BigIntegerUtil::toHexWithFixedLength($i, 2);//UUID_Exception throwed
      * </code>
      * 
-     * @param Math_BigInteger $integer the integer that is to be converted in string
-     * @param int $length the expected length of the hexadecimal string
-     * @return string an hexadecimal representation of the integer of the requested length
-     * @throws UUID_Exception in case the number of bits in value is larger than the index where to start inserting bits
+     * @param Math_BigInteger $integer the integer that is to be converted in
+     *                                  string
+     * @param int             $length  the expected length of the hexadecimal
+     *                                  string
+     * 
+     * @return string an hexadecimal representation of the integer of the
+     *                      requested length
+     * @throws UUID_Exception in case the number of bits in value is larger than
+     *                          the index where to start inserting bits
      *
      * @access public
      * @since Method available since Release 1.0
@@ -216,7 +248,9 @@ class UUID_BigIntegerUtil
     {
         $hex = $integer->toHex();
         if (strlen($hex) > $length) {
-            throw new UUID_Exception('The integer is too large to fit in this length');
+            throw new UUID_Exception(
+                'The integer is too large to fit in this length'
+            );
         }
         return str_pad($hex, $length, '0', STR_PAD_LEFT);
     }
@@ -230,25 +264,32 @@ class UUID_BigIntegerUtil
      * If the string has the correct length it is simply returned:
      * <code>
      * $i = new Math_BigInteger('101100', 2);
-     * echo UUID_BigIntegerUtil::toBitsWithFixedLength($i, 6), "\n";//echo "101100"
+     * echo UUID_BigIntegerUtil::toBitsWithFixedLength($i, 6), "\n";
+     * //echo "101100"
      * </code>
      * 
      * If the string is too short 0s are padded left:
      * <code>
      * $i = new Math_BigInteger('101100', 2);
-     * echo UUID_BigIntegerUtil::toBitsWithFixedLength($i, 10), "\n";//echo "0000101100"
+     * echo UUID_BigIntegerUtil::toBitsWithFixedLength($i, 10), "\n";
+     * //echo "0000101100"
      * </code>
      * 
      * If the string is too long an exception is throwed:
      * <code>
      * $i = new Math_BigInteger('101100', 2);
-     * UUID_BigIntegerUtil::toBitsWithFixedLength($i, 2);//UUID_Exception throwed
+     * UUID_BigIntegerUtil::toBitsWithFixedLength($i, 2);
+     * //UUID_Exception throwed
      * </code>
      *
-     * @param Math_BigInteger $integer the integer that is to be converted in string
-     * @param int $length the expected length of the bit string
-     * @return string a binary representation of the integer of the requested length
-     * @throws UUID_Exception in case the number of bits in value is larger than the index where to start inserting bits
+     * @param Math_BigInteger $integer the integer that is to be converted in
+     *                                  string
+     * @param int             $length  the expected length of the bit string
+     * 
+     * @return string a binary representation of the integer of the requested
+     *                  length
+     * @throws UUID_Exception in case the number of bits in value is larger than
+     *                          the index where to start inserting bits
      *
      * @access public
      * @since Method available since Release 1.0
@@ -257,7 +298,9 @@ class UUID_BigIntegerUtil
     {
         $bits = $integer->toBits();
         if (strlen($bits) > $length) {
-            throw new UUID_Exception('The integer is too large to fit in this length');
+            throw new UUID_Exception(
+                'The integer is too large to fit in this length'
+            );
         }
         return str_pad($bits, $length, '0', STR_PAD_LEFT);
     }

@@ -1,4 +1,4 @@
-<?
+<?php
 
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
@@ -39,35 +39,37 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    UUID
- * @author     Mathieu Bruyen <code@mais-h.eu>
- * @copyright  2010 Mathieu Bruyen <code@mais-h.eu>
- * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id$
- * @link       http://www.mais-h.eu/doc/index.php/UUID_php_package
- * @since      File available since Release 1.0
+ * @category  Structures
+ * @package   UUID
+ * @author    Mathieu Bruyen <code@mais-h.eu>
+ * @copyright 2010 Mathieu Bruyen <code@mais-h.eu>
+ * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
+ * @version   SVN: $Id$
+ * @link      http://www.mais-h.eu/doc/index.php/UUID_php_package
+ * @since     File available since Release 1.0
  */
 
 // Set the error handling to the maximum
 ini_set('error_reporting', E_ALL | E_STRICT);
 
 // Insert the tested class
-require_once(realpath(dirname(__FILE__)) . '/../BigIntegerUtil.php');
+require_once realpath(dirname(__FILE__)) . '/../BigIntegerUtil.php';
 
 /**
  * Testing set for the arbitrary integer defined in the package
  * 
- * @package    UUID
- * @author     Mathieu Bruyen <code@mais-h.eu>
- * @copyright  2010 Mathieu Bruyen <code@mais-h.eu>
- * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: @package_version@
- * @link       http://www.mais-h.eu/doc/index.php/UUID_php_package
- * @since      Class available since Release 1.0
+ * @category  Structures
+ * @package   UUID
+ * @author    Mathieu Bruyen <code@mais-h.eu>
+ * @copyright 2010 Mathieu Bruyen <code@mais-h.eu>
+ * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
+ * @version   Release: @package_version@
+ * @link      http://www.mais-h.eu/doc/index.php/UUID_php_package
+ * @since     Class available since Release 1.0
  */
-///TODO test other methods
 class BigIntegerTest extends PHPUnit_Framework_TestCase
 {
+    ///TODO test other methods
     
     /**
      * Test the integer slicing when no length is specified
@@ -89,7 +91,8 @@ class BigIntegerTest extends PHPUnit_Framework_TestCase
         $integer = new Math_BigInteger($initBits, 2);
         $expected = new Math_BigInteger($expectedBits, 2);
         
-        $this->assertTrue($expected->equals(UUID_BigIntegerUtil::extractSlice($integer, $offset)));
+        $slice = UUID_BigIntegerUtil::extractSlice($integer, $offset);
+        $this->assertTrue($expected->equals($slice));
     }
     
     /**
@@ -114,7 +117,8 @@ class BigIntegerTest extends PHPUnit_Framework_TestCase
         $integer = new Math_BigInteger($initBits, 2);
         $expected = new Math_BigInteger($expectedBits, 2);
         
-        $this->assertTrue($expected->equals(UUID_BigIntegerUtil::extractSlice($integer, $offset, $length)));
+        $slice = UUID_BigIntegerUtil::extractSlice($integer, $offset, $length);
+        $this->assertTrue($expected->equals($slice));
     }
     
     /**
@@ -139,7 +143,9 @@ class BigIntegerTest extends PHPUnit_Framework_TestCase
         $integer = new Math_BigInteger($initBits, 2);
         $expected = new Math_BigInteger($expectedBits, 2);
         
-        $this->assertTrue($expected->equals(UUID_BigIntegerUtil::setBits($integer, new Math_BigInteger($valueBits, 2), $highBit)));
+        $valueBigInt = new Math_BigInteger($valueBits, 2);
+        $modified = UUID_BigIntegerUtil::setBits($integer, $valueBigInt, $highBit);
+        $this->assertTrue($expected->equals($modified));
     }
     
     /**
@@ -165,7 +171,9 @@ class BigIntegerTest extends PHPUnit_Framework_TestCase
         $integer = new Math_BigInteger($initBits, 2);
         $expected = new Math_BigInteger($expectedBits, 2);
         
-        $this->assertTrue($expected->equals(UUID_BigIntegerUtil::setBits($integer, new Math_BigInteger($valueBits, 2), $highBit)));
+        $valueBigInt = new Math_BigInteger($valueBits, 2);
+        $modified = UUID_BigIntegerUtil::setBits($integer, $valueBigInt, $highBit);
+        $this->assertTrue($expected->equals($modified));
     }
     
     /**
@@ -188,8 +196,9 @@ class BigIntegerTest extends PHPUnit_Framework_TestCase
         
         $integer = new Math_BigInteger($initBits, 2);
         
+        $valueBigInt = new Math_BigInteger($valueBits, 2);
         try {
-            UUID_BigIntegerUtil::setBits($integer, new Math_BigInteger($valueBits, 2), $highBit);
+            UUID_BigIntegerUtil::setBits($integer, $valueBigInt, $highBit);
             $this->fail();
         } catch (UUID_Exception $e) {
             //Normal way
@@ -214,7 +223,8 @@ class BigIntegerTest extends PHPUnit_Framework_TestCase
         
         $integer = new Math_BigInteger($initHex, 16);
         
-        $this->assertEquals($expected, UUID_BigIntegerUtil::toHexWithFixedLength($integer, $length));
+        $hexString = UUID_BigIntegerUtil::toHexWithFixedLength($integer, $length);
+        $this->assertEquals($expected, $hexString);
     }
     
     /**
@@ -235,7 +245,8 @@ class BigIntegerTest extends PHPUnit_Framework_TestCase
         
         $integer = new Math_BigInteger($initHex, 16);
         
-        $this->assertEquals($expected, UUID_BigIntegerUtil::toHexWithFixedLength($integer, $length));
+        $hexString = UUID_BigIntegerUtil::toHexWithFixedLength($integer, $length);
+        $this->assertEquals($expected, $hexString);
     }
     
     /**
@@ -281,7 +292,8 @@ class BigIntegerTest extends PHPUnit_Framework_TestCase
         
         $integer = new Math_BigInteger($initBits, 2);
         
-        $this->assertEquals($expected, UUID_BigIntegerUtil::toBitsWithFixedLength($integer, $length));
+        $bitString = UUID_BigIntegerUtil::toBitsWithFixedLength($integer, $length);
+        $this->assertEquals($expected, $bitString);
     }
     
     /**
@@ -302,7 +314,8 @@ class BigIntegerTest extends PHPUnit_Framework_TestCase
         
         $integer = new Math_BigInteger($initBits, 2);
         
-        $this->assertEquals($expected, UUID_BigIntegerUtil::toBitsWithFixedLength($integer, $length));
+        $bitString = UUID_BigIntegerUtil::toBitsWithFixedLength($integer, $length);
+        $this->assertEquals($expected, $bitString);
     }
     
     /**
