@@ -44,7 +44,6 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @category   TODO
  * @package    UUID
  * @author     Mathieu Bruyen <code@mais-h.eu>
  * @copyright  2010 Mathieu Bruyen <code@mais-h.eu>
