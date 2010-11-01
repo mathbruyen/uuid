@@ -98,9 +98,9 @@ interface UUID_Uuid
     /**
      * Returns the variant of the UUID
      *
-     * The variant is a string composed of 0s and 1s that corresponds to
-     * the layout of the UUID. For example a UUID following RFC4122 must
-     * return the variant "10".
+     * The variant is a string composed of 0s and 1s that corresponds to the
+     * layout of the UUID. For example a UUID following RFC4122 must return the
+     * variant "10".
      * 
      * @return string the variant of the UUID
      *
@@ -112,10 +112,9 @@ interface UUID_Uuid
     /**
      * Returns the string representation of the UUID
      *
-     * The string representation does not include the URN scheme and
-     * follows the layout related to the variant of the UUID. For
-     * example a RFC4222 UUID should look like
-     * "f81d4fae-7dec-11d0-a765-00a0c91e6bf6".
+     * The string representation does not include the URN scheme and follows the
+     * layout related to the variant of the UUID. For example a RFC4222 UUID
+     * should look like "f81d4fae-7dec-11d0-a765-00a0c91e6bf6".
      * 
      * @return string the string representation of the UUID
      *
@@ -128,10 +127,9 @@ interface UUID_Uuid
     /**
      * Returns the URN version of the UUID
      *
-     * The URN representation of the UUID should be the URN scheme
-     * followed by the string representation of the UUID. For
-     * example a RFC4222 UUID should look like
-     * "urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6"
+     * The URN representation of the UUID should be the URN scheme followed by
+     * the string representation of the UUID. For example a RFC4222 UUID should
+     * look like "urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6"
      *
      * @return string the URN representation of the UUID
      *
@@ -144,14 +142,16 @@ interface UUID_Uuid
     /**
      * Returns a raw integer representation of the UUID
      * 
-     * The raw integer is returned as a Math_BigInteger due to its
-     * excected large width. Math_BigInteger comes from the PEAR package
-     * of the same name.
+     * The raw integer is returned as a Math_BigInteger due to its expected
+     * large width. Math_BigInteger comes from the PEAR package of the same
+     * name. Its maximal size in number of bits can be determined by method
+     * <code>$uuid->getRawIntBitNumber()</code>
      *
      * @return Math_BigInteger the integer representing the UUID
      *
      * @access public
      * @since Method available since Release 1.0
+     * @see UUID_Uuid::getRawIntBitNumber()
      */
     public function toRawInt();
     
