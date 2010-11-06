@@ -81,7 +81,7 @@ class IntegerParameterDescriptionTest extends PHPUnit_Framework_TestCase
     public function testValueNotInt()
     {
         $parameterDescription = new UUID_IntegerParameterDescription();
-        $this->assertEquals(false, $parameterDescription->check('bla'));
+        $this->assertFalse($parameterDescription->check('bla'));
     }
     
     /**
@@ -194,11 +194,11 @@ class IntegerParameterDescriptionTest extends PHPUnit_Framework_TestCase
         $parameterDescription->setMinValue($min);
         $parameterDescription->setMaxValue($max);
         
-        $this->assertEquals(false, $parameterDescription->check($min - 1));
+        $this->assertFalse($parameterDescription->check($min - 1));
         for ($i = $min; $i <= $max; $i++) {
-            $this->assertEquals(true, $parameterDescription->check($i));
+            $this->assertTrue($parameterDescription->check($i));
         }
-        $this->assertEquals(false, $parameterDescription->check($max + 1));
+        $this->assertFalse($parameterDescription->check($max + 1));
     }
     
     /**
@@ -218,7 +218,7 @@ class IntegerParameterDescriptionTest extends PHPUnit_Framework_TestCase
         
         $this->assertEquals(false, $parameterDescription->check($forbidden));
         foreach ($values as $value) {
-            $this->assertEquals(true, $parameterDescription->check($value));
+            $this->assertTrue($parameterDescription->check($value));
         }
     }
 }
