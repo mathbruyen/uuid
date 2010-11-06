@@ -122,11 +122,11 @@ class UUID_BigIntegerUtil
      * Sets arbitrary bits in a copy of the integer and returns it
      * 
      * A copy of the given integer is returned, where bits have been modified to
-     * reflect those of the value given. The the index of highest bit modified
-     * (indexes start at 0) is the one given in parameters.
+     * reflect those given. The the index of highest bit modified (indexes start at
+     * 0) is the one given in parameters.
      * <code>
      * $i = new Math_BigInteger('101100111000', 2);
-     * $value = new Math_BigInteger('101', 2);
+     * $value = '101';
      * 
      * $m = UUID_BigIntegerUtil::setBits($i, $value, 6);
      * echo $m->toBits(), "\n";//echo "101101011000"
@@ -136,17 +136,17 @@ class UUID_BigIntegerUtil
      * inserted:
      * <code>
      * $i = new Math_BigInteger('11', 2);
-     * $value = new Math_BigInteger('10100000', 2);
+     * $value = '101';
      * 
      * $m = UUID_BigIntegerUtil::setBits($i, $value, 8);
-     * echo $m->toBits(), "\n";//echo "101000001"
+     * echo $m->toBits(), "\n";//echo "101000011"
      * </code>
      * 
      * If the value is too large to fit into the remaining bits an exception is
      * throwed.
      * <code>
      * $i = new Math_BigInteger('101100111000', 2);
-     * $value = new Math_BigInteger('10100000', 2);
+     * $value = 10100000);
      * 
      * $m = UUID_BigIntegerUtil::setBits($i, $value, 6);
      * //UUID_Exception throwed
@@ -154,8 +154,8 @@ class UUID_BigIntegerUtil
      *
      * @param Math_BigInteger $integer       the original integer that will be
      *                                          copied and have bits modified
-     * @param Math_BigInteger $valueSet      the value defining the bits to
-     *                                          insert
+     * @param string          $bitsSet       the bits inserted given in a binary
+     *                                          string
      * @param int             $highBitNumber the index of the highest bit
      *                                          (indexes start at 0) that is
      *                                          modified
@@ -168,7 +168,7 @@ class UUID_BigIntegerUtil
      * @access public
      * @since Method available since Release 1.0
      */
-    public static function setBits($integer, $valueSet, $highBitNumber)
+    public static function setBits($integer, $bitsSet, $highBitNumber)
     {
         // Minimum number of bits that should be present (bits start at 0)
         $minBitCount = $highBitNumber + 1;
@@ -190,7 +190,7 @@ class UUID_BigIntegerUtil
         
         // Assert that the value is not too large compared to the high bit
         // number
-        $valueBitArray = str_split($valueSet->toBits());
+        $valueBitArray = str_split($bitsSet);
         if (count($valueBitArray) > $minBitCount) {
             throw new UUID_Exception(
                 'High bit number is smaller than bit number in value');

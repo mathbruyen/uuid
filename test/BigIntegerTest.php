@@ -141,8 +141,7 @@ class BigIntegerTest extends PHPUnit_Framework_TestCase
         $integer = new Math_BigInteger($initBits, 2);
         $expected = new Math_BigInteger($expectedBits, 2);
         
-        $valueBigInt = new Math_BigInteger($valueBits, 2);
-        $modified = UUID_BigIntegerUtil::setBits($integer, $valueBigInt, $highBit);
+        $modified = UUID_BigIntegerUtil::setBits($integer, $valueBits, $highBit);
         $this->assertTrue($expected->equals($modified));
     }
     
@@ -169,8 +168,7 @@ class BigIntegerTest extends PHPUnit_Framework_TestCase
         $integer = new Math_BigInteger($initBits, 2);
         $expected = new Math_BigInteger($expectedBits, 2);
         
-        $valueBigInt = new Math_BigInteger($valueBits, 2);
-        $modified = UUID_BigIntegerUtil::setBits($integer, $valueBigInt, $highBit);
+        $modified = UUID_BigIntegerUtil::setBits($integer, $valueBits, $highBit);
         $this->assertTrue($expected->equals($modified));
     }
     
@@ -194,9 +192,8 @@ class BigIntegerTest extends PHPUnit_Framework_TestCase
         
         $integer = new Math_BigInteger($initBits, 2);
         
-        $valueBigInt = new Math_BigInteger($valueBits, 2);
         try {
-            UUID_BigIntegerUtil::setBits($integer, $valueBigInt, $highBit);
+            UUID_BigIntegerUtil::setBits($integer, $valueBits, $highBit);
             $this->fail();
         } catch (UUID_Exception $e) {
             //Normal way

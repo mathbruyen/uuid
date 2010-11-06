@@ -531,7 +531,10 @@ class UUID_Rfc4122Uuid implements UUID_Uuid
     {
         return UUID_BigIntegerUtil::setBits(
             UUID_BigIntegerUtil::extractSlice($this->_timestamp, 48),
-            new Math_BigInteger("{$this->_version}"),
+            UUID_BigIntegerUtil::toBitsWithFixedLength(
+                new Math_BigInteger($this->_version),
+                4
+            ),
             15
         );
     }
@@ -553,7 +556,7 @@ class UUID_Rfc4122Uuid implements UUID_Uuid
     {
         return UUID_BigIntegerUtil::setBits(
             $this->_clockSequence,
-            new Math_BigInteger(self::LAYOUT),
+            self::LAYOUT,
             15
         );
     }
