@@ -90,7 +90,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @version   Release: @package_version@
  * @link      http://www.mais-h.eu/doc/index.php/UUID_php_package
- * @since     Class available since Release 1.0
+ * @since     Interface available since Release 1.0
  */
 interface UUID_Uuid
 {
