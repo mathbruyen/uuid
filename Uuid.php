@@ -82,7 +82,6 @@
  * $variant = $uuid->getVariant();
  * $intSize = $uuid->getRawIntBitNumber();
  * </code>
- * These ones should be independant of the instance, and behave like static method.
  * 
  * @category  Structures
  * @package   UUID
