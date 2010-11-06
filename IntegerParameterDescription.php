@@ -297,6 +297,7 @@ class UUID_IntegerParameterDescription implements UUID_ParameterDescription
      */
     public function getHumanReadableHelp()
     {
+        // @codeCoverageIgnoreStart
         $info = array();
         if ($this->_min !== null) {
             $info[] = "greater or equal than {$this->_min}";
@@ -308,6 +309,7 @@ class UUID_IntegerParameterDescription implements UUID_ParameterDescription
             $info[] = 'in { ' . implode(', ', $this->_values) . ' }';
         }
         return 'The value must be an integer ' . implode(', ', $info) . '.';
+        // @codeCoverageIgnoreEnd
     }
 }
 

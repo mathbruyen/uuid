@@ -71,6 +71,20 @@ class IntegerParameterDescriptionTest extends PHPUnit_Framework_TestCase
 {
     
     /**
+     * Test that method check returns false for non int
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testValueNotInt()
+    {
+        $parameterDescription = new UUID_IntegerParameterDescription();
+        $this->assertEquals(false, $parameterDescription->check('bla'));
+    }
+    
+    /**
      * Test that method setMinValue does not accept non int
      * 
      * @return void
