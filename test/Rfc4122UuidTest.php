@@ -149,10 +149,7 @@ class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
     {
         $uuid = $this->_generateRandomUuid(UUID_Rfc4122Uuid::VERSION_RANDOM);
         
-        $this->assertEquals(
-            $uuid->getRawIntBitNumber(),
-            UUID_Rfc4122Uuid::INTEGER_SIZE
-        );
+        $this->assertEquals(128, $uuid->getRawIntBitNumber());
     }
     
     /**
