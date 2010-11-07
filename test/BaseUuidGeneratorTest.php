@@ -58,6 +58,10 @@ require_once realpath(dirname(__FILE__)) . '/../generator/MockUuidGenerator.php'
 // Insert the requirements class
 require_once realpath(dirname(__FILE__)) . '/../requirements/UuidRequirements.php';
 
+// Insert the capacities class
+require_once realpath(dirname(__FILE__))
+    . '/../requirements/GeneratorCapacities.php';
+
 // Insert the integer parameter descriptions class
 require_once realpath(dirname(__FILE__))
     . '/../requirements/IntegerParameterDescription.php';
@@ -180,6 +184,30 @@ class BaseUuidGeneratorTest extends PHPUnit_Framework_TestCase
         
         $this->assertTrue($g->getCapacities()->fulfillRequirements($r1));
         $this->assertTrue($g->getCapacities()->fulfillRequirements($r2));
+    }
+    
+    /**
+     * Test that capacities given in constructor are used
+     * 
+     * The tag used in requirements has been set in the instance given to the
+     * constructor.
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testCapacitiesInConstructor()
+    {
+        $c = new UUID_GeneratorCapacities();
+        $c->addTag('bla');
+        
+        $g = new UUID_MockUuidGenerator($c);
+        
+        $r = new UUID_UuidRequirements();
+        $r->addTag('bla');
+        
+        $this->assertTrue($g->getCapacities()->fulfillRequirements($r));
     }
 }
 

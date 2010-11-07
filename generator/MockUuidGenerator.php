@@ -73,7 +73,11 @@ class UUID_MockUuidGenerator extends UUID_BaseUuidGenerator
     /**
      * Constructor
      *
-     * Just calls the parent constructor.
+     * Just calls the parent constructor with an instance of capacities if wanted.
+     * 
+     * @param UUID_GeneratorCapacities $capacities an instance of capacities that is
+     *                                              transmitted to parent's
+     *                                              constructor, if present.
      * 
      * @return void
      * 
@@ -82,7 +86,7 @@ class UUID_MockUuidGenerator extends UUID_BaseUuidGenerator
      */
     public function __construct()
     {
-        parent::__construct();
+        call_user_func_array("parent::__construct", func_get_args());
     }
     
     /**

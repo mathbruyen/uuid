@@ -78,16 +78,24 @@ abstract class UUID_BaseUuidGenerator implements UUID_UuidGenerator
     /**
      * Constructor.
      *
-     * Initializes the capacities.
+     * Initializes the capacities to the ones given in parameters or to a new one if
+     * nothing is provided. This can be used to specify a different class of
+     * capacities with more functionnalities.
+     * 
+     * @param UUID_GeneratorCapacities $capacities the instance of capacities to use.
      * 
      * @return void
      *
      * @access public
      * @since Method available since Release 1.0
      */
-    public function __construct()
+    public function __construct($capacities = null)
     {
-        $this->_capacities = new UUID_GeneratorCapacities();
+        if ($capacities === null) {
+            $this->_capacities = new UUID_GeneratorCapacities();
+        } else {
+            $this->_capacities = $capacities;
+        }
     }
 
     /**
