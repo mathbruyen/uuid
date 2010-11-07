@@ -148,7 +148,7 @@ class UUID_Rfc4122Uuid implements UUID_Uuid
      * This is a binary string representing the variant, or in other terms the
      * layout, of the UUID.
      * 
-     * @var int
+     * @var string
      */
     const LAYOUT = '10';
     
