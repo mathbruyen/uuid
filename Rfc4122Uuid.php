@@ -265,9 +265,24 @@ class UUID_Rfc4122Uuid implements UUID_Uuid
     public function __construct($timestamp, $clockSequence, $nodeId, $version)
     {
         // Record data
-        $this->_timestamp = $timestamp;
-        $this->_clockSequence = $clockSequence;
-        $this->_nodeId = $nodeId;
+        $this->_timestamp = $timestamp->bitwise_and(
+            new Math_BigInteger(
+                str_repeat('1', self::TIMESTAMP_BIT_NUMBER),
+                2
+            )
+        );
+        $this->_clockSequence = $clockSequence->bitwise_and(
+            new Math_BigInteger(
+                str_repeat('1', self::CLOCK_SEQUENCE_BIT_NUMBER),
+                2
+            )
+        );
+        $this->_nodeId = $nodeId->bitwise_and(
+            new Math_BigInteger(
+                str_repeat('1', self::NODE_ID_BIT_NUMBER),
+                2
+            )
+        );
         
         // Check the version
         $versions = array(
@@ -281,18 +296,6 @@ class UUID_Rfc4122Uuid implements UUID_Uuid
             throw new UUID_Exception('Incorrect version used');
         }
         $this->_version = $version;
-        
-        /*
-         * Build the other representation to ensure that integers
-         * fit int the according spaces and that no exception can be raised
-         * later
-         */
-        try {
-            $this->_stringRepresentation = $this->_makeStringRepresentation();
-            $this->_integerRepresentation = $this->_makeIntegerRepresentation();
-        } catch (UUID_Exception $e) {
-            throw new UUID_Exception('Incorrect parameter', $e);
-        }
     }
     
     /**
@@ -326,6 +329,9 @@ class UUID_Rfc4122Uuid implements UUID_Uuid
      */
     public function __toString()
     {
+        if ($this->_stringRepresentation === null) {
+            $this->_stringRepresentation = $this->_makeStringRepresentation();
+        }
         return $this->_stringRepresentation;
     }
     
@@ -366,6 +372,9 @@ class UUID_Rfc4122Uuid implements UUID_Uuid
      */
     public function toRawInt()
     {
+        if ($this->_integerRepresentation === null) {
+            $this->_integerRepresentation = $this->_makeIntegerRepresentation();
+        }
         return $this->_integerRepresentation;
     }
     

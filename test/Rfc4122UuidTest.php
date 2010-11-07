@@ -212,12 +212,7 @@ class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
     }
     
     /**
-     * Tries to build a UUID with too large timestamp
-     * 
-     * The fields are built with integers with all bits set to 1. The timestamp is
-     * however of a larger length than its possible. Note that it is possible to have
-     * 4 bits larger than the size acknowledged in constants because of the
-     * multiplexing, bits are accepted but erased.
+     * Timestamp too large is silently shrinked
      * 
      * @return void
      *
@@ -227,7 +222,7 @@ class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
     public function testTimestampTooLarge()
     {
         $timestamp = new Math_BigInteger(
-            str_repeat('1', UUID_Rfc4122Uuid::TIMESTAMP_BIT_NUMBER + 5),
+            str_repeat('1', UUID_Rfc4122Uuid::TIMESTAMP_BIT_NUMBER * 2),
             2
         );
         $clockSequence = new Math_BigInteger(
@@ -240,8 +235,14 @@ class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
         );
         $version = UUID_Rfc4122Uuid::VERSION_RANDOM;
         
-        $this->setExpectedException('UUID_Exception');
-        new UUID_Rfc4122Uuid($timestamp, $clockSequence, $nodeId, $version);
+        try {
+            $u = new UUID_Rfc4122Uuid($timestamp, $clockSequence, $nodeId, $version);
+            $u->__toString();
+            $u->toURN();
+            $u->toRawInt();
+        } catch (UUID_Exception $e) {
+            $this->fail();
+        }
     }
     
     /**
@@ -264,7 +265,7 @@ class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
             2
         );
         $clockSequence = new Math_BigInteger(
-            str_repeat('1', UUID_Rfc4122Uuid::CLOCK_SEQUENCE_BIT_NUMBER + 3),
+            str_repeat('1', UUID_Rfc4122Uuid::CLOCK_SEQUENCE_BIT_NUMBER * 2),
             2
         );
         $nodeId = new Math_BigInteger(
@@ -273,8 +274,14 @@ class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
         );
         $version = UUID_Rfc4122Uuid::VERSION_RANDOM;
         
-        $this->setExpectedException('UUID_Exception');
-        new UUID_Rfc4122Uuid($timestamp, $clockSequence, $nodeId, $version);
+        try {
+            $u = new UUID_Rfc4122Uuid($timestamp, $clockSequence, $nodeId, $version);
+            $u->__toString();
+            $u->toURN();
+            $u->toRawInt();
+        } catch (UUID_Exception $e) {
+            $this->fail();
+        }
     }
     
     /**
@@ -299,13 +306,19 @@ class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
             2
         );
         $nodeId = new Math_BigInteger(
-            str_repeat('1', UUID_Rfc4122Uuid::NODE_ID_BIT_NUMBER + 1),
+            str_repeat('1', UUID_Rfc4122Uuid::NODE_ID_BIT_NUMBER * 2),
             2
         );
         $version = UUID_Rfc4122Uuid::VERSION_RANDOM;
         
-        $this->setExpectedException('UUID_Exception');
-        new UUID_Rfc4122Uuid($timestamp, $clockSequence, $nodeId, $version);
+        try {
+            $u = new UUID_Rfc4122Uuid($timestamp, $clockSequence, $nodeId, $version);
+            $u->__toString();
+            $u->toURN();
+            $u->toRawInt();
+        } catch (UUID_Exception $e) {
+            $this->fail();
+        }
     }
     
     /**
