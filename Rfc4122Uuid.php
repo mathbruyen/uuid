@@ -153,6 +153,13 @@ class UUID_Rfc4122Uuid implements UUID_Uuid
     const LAYOUT = '10';
     
     /**
+     * The delimiter used between blocks of hex characters in string representation
+     * 
+     * @var string
+     */
+    const BLOCK_DELIMITER = '-';
+    
+    /**
      * The timestamp associated with the UUID
      *
      * @var Math_BigInteger
@@ -438,7 +445,7 @@ class UUID_Rfc4122Uuid implements UUID_Uuid
                 12
             ),
         );
-        return implode('-', $values);
+        return implode(self::BLOCK_DELIMITER, $values);
     }
     
     /**
