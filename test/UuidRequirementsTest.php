@@ -53,7 +53,7 @@
 ini_set('error_reporting', E_ALL | E_STRICT);
 
 // Insert tested class
-require_once realpath(dirname(__FILE__)) . '/../UuidRequirements.php';
+require_once realpath(dirname(__FILE__)) . '/../requirements/UuidRequirements.php';
 
 /**
  * Testing set for the uuid requirements

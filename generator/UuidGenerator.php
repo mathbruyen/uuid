@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Definition of a base class with capacities handling for generating UUIDs
+ * Definition of the interface for UUID generator
  *
  * PHP version 5
  *
@@ -49,17 +49,25 @@
  * @since     File available since Release 1.0
  */
 
-// Load interface
-require_once realpath(dirname(__FILE__)) . '/UuidGenerator.php';
-
-// Load generator capacities
-require_once realpath(dirname(__FILE__)) . '/GeneratorCapacities.php';
-
 /**
- * A basic UUID generator implementation that handles capacities
+ * Inteface of object representation of a Uuid generator
+ *
+ * Every UUID generator inherits from this interface. It has two methods, one to get
+ * the capacities of the generator, describing which parameters are accepted and the
+ * accepted values for them. It also defines tags that the generator is said to
+ * respect. The other method is used to actually generate one new UUID. Before trying
+ * to generate it, requirements should be tested.
+ * <code>
+ * //$g = make the generator
+ * //$r = make some requirements
  * 
- * It implements methods related to capacities and provide a way to configure them.
- * All things related to actual UUID generation are up to the subclasses.
+ * $gc = $g->getCapacities();
+ * if ($gc->fulfillRequirements($r)) {
+ *     $uuid = $g->generateUuid($r);
+ * } else {
+ *     // pick another generator
+ * }
+ * </code>
  * 
  * @category  Structures
  * @package   UUID
@@ -70,25 +78,42 @@ require_once realpath(dirname(__FILE__)) . '/GeneratorCapacities.php';
  * @link      http://www.mais-h.eu/doc/index.php/UUID_php_package
  * @since     Interface available since Release 1.0
  */
-abstract class UUID_BaseUuidGenerator implements UUID_UuidGenerator
+interface UUID_UuidGenerator
 {
     
-    private $_capacities;
-    
     /**
-     * Constructor.
+     * Generates a new UUID
      *
-     * Initializes the capacities.
+     * Generates a new UUID respecting the requirements or throw an exception if
+     * requirements cannot be achieved.
      * 
-     * @return void
+     * If requirements comply with generarot's capacities (or equivalently if
+     * capacities fulfill requirements) should not throw exception. It is still
+     * allowed to throw exception, but only if there is a configuration problem. If
+     * an exception is thrown after capacities were checked, it thus means a
+     * configuration problem and for example the factory is allowed to remove the
+     * generator.
+     * <code>
+     * //$g = make the generator
+     * //$r = make some requirements
+     * 
+     * $gc = $g->getCapacities();
+     * if ($gc->fulfillRequirements($r)) {
+     *     $uuid = $g->generateUuid($r);// if it fails, it means configuration error
+     * }
+     * </code>
+     * 
+     * @param UUID_UuidRequirements $requirements the requirements that are required
+     *                                              for the UUID
+     * 
+     * @return UUID_Uuid a new UUID
+     * @throws UUID_Exception an exception is throwed is something goes wrong
      *
      * @access public
      * @since Method available since Release 1.0
+     * @see UUID_UuidGenerator::getCapacities()
      */
-    public function __construct()
-    {
-        $this->_capacities = new UUID_GeneratorCapacities();
-    }
+    public function generateUuid($requirements);
 
     /**
      * Informs about the capacities that the generator has
@@ -102,50 +127,7 @@ abstract class UUID_BaseUuidGenerator implements UUID_UuidGenerator
      * @access public
      * @since Method available since Release 1.0
      */
-    public function getCapacities()
-    {
-        return $this->_capacities;
-    }
-    
-    /**
-     * Allows a new parameter to the generator's capacities
-     * 
-     * Forwards the call to the capacities object.
-     * 
-     * @param string                    $name        the name of the parameter
-     * @param UUID_ParameterDescription $description the description of allowed
-     *                                                  values
-     * @param boolean                   $required    whether the parameter is
-     *                                                  required or not
-     * 
-     * @return UUID_BaseUuidGenerator the current object, for chaining purpose
-     *
-     * @access public
-     * @since Method available since Release 1.0
-     */
-    protected function addParameter($name, $description, $required = true)
-    {
-        $this->_capacities->addParameter($name, $description, $required);
-        return $this;
-    }
-    
-    /**
-     * Allows a new tag to the generator's capacities
-     *
-     * Forwards the call to capacities object.
-     * 
-     * @param string $tag the tag allowed
-     * 
-     * @return UUID_BaseUuidGenerator the current object, for chaining purpose
-     *
-     * @access public
-     * @since Method available since Release 1.0
-     */
-    protected function addTag($tag)
-    {
-        $this->_capacities->addTag($tag);
-        return $this;
-    }
+    public function getCapacities();
 }
 
 /*

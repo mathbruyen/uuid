@@ -53,10 +53,10 @@
 require_once realpath(dirname(__FILE__)) . '/Uuid.php';
 
 //Load exception
-require_once realpath(dirname(__FILE__)) . '/Exception.php';
+require_once realpath(dirname(__FILE__)) . '/../util/Exception.php';
 
 //Load arbitrary length class
-require_once realpath(dirname(__FILE__)) . '/BigIntegerUtil.php';
+require_once realpath(dirname(__FILE__)) . '/../util/BigIntegerUtil.php';
 
 /**
  * Class representing a RFC4122 UUID

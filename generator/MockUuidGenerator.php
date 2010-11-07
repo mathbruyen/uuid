@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Definition of the base class for generating RFC4222 UUIDs
+ * Definition of the mock class for Uuid generator base class
  *
  * PHP version 5
  *
@@ -49,17 +49,14 @@
  * @since     File available since Release 1.0
  */
 
-// Load interface
+// Load base class
 require_once realpath(dirname(__FILE__)) . '/BaseUuidGenerator.php';
 
-// Load generator capacities
-require_once realpath(dirname(__FILE__)) . '/GeneratorCapacities.php';
-
 /**
- * The basic class for RFC4122 UUID generators
+ * Mock class for testing the base generator class
  * 
- * It simply defines and adds the tag for RFC4122 UUIDs and actual UUID generation
- * is up to subclasses.
+ * This class uses the __call magic method to forward protected method calls that
+ * are not allowed from public.
  * 
  * @category  Structures
  * @package   UUID
@@ -70,30 +67,82 @@ require_once realpath(dirname(__FILE__)) . '/GeneratorCapacities.php';
  * @link      http://www.mais-h.eu/doc/index.php/UUID_php_package
  * @since     Interface available since Release 1.0
  */
-abstract class UUID_Rfc4122UuidGenerator extends UUID_BaseUuidGenerator
+class UUID_MockUuidGenerator extends UUID_BaseUuidGenerator
 {
-    
-    /**
-     * The tag used for RFC4122 UUIDs
-     * 
-     * @var string
-     */
-    const TAG_RFC4122_UUID = 'Rfc4122';
     
     /**
      * Constructor
      *
-     * Calls the parent constructor and add the RFC4122 UUID tag.
+     * Just calls the parent constructor.
      * 
      * @return void
-     *
+     * 
      * @access public
      * @since Method available since Release 1.0
      */
     public function __construct()
     {
         parent::__construct();
-        $this->addTag(self::TAG_RFC4122_UUID);
+    }
+    
+    /**
+     * Generates a new UUID
+     *
+     * Generates a new UUID respecting the requirements or throw an exception if
+     * requirements cannot be achieved.
+     * 
+     * If requirements comply with generarot's capacities (or equivalently if
+     * capacities fulfill requirements) should not throw exception. It is still
+     * allowed to throw exception, but only if there is a configuration problem. If
+     * an exception is thrown after capacities were checked, it thus means a
+     * configuration problem and for example the factory is allowed to remove the
+     * generator.
+     * <code>
+     * //$g = make the generator
+     * //$r = make some requirements
+     * 
+     * $gc = $g->getCapacities();
+     * if ($gc->fulfillRequirements($r)) {
+     *     $uuid = $g->generateUuid($r);// if it fails, it means configuration error
+     * }
+     * </code>
+     * 
+     * @param UUID_UuidRequirements $requirements the requirements that are required
+     *                                              for the UUID
+     * 
+     * @return UUID_Uuid a new UUID
+     * @throws UUID_Exception an exception is throwed is something goes wrong
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     * @see UUID_UuidGenerator::getCapacities()
+     */
+    public function generateUuid($requirements)
+    {
+        // @codeCoverageIgnoreStart
+        return null;
+        // @codeCoverageIgnoreEnd
+    }
+    
+    /**
+     * Forwards calls to parent class not allowed from outside
+     *
+     * The method intercepts all calls that are invalid from outside and tries to
+     * forward them to the parent class. Exceptions or errors can occur for
+     * multiple reasons, like unknown method or invalid parameters.
+     * 
+     * @param string $name      the name of the method called
+     * @param array  $arguments the arguments passed to the call
+     * 
+     * @return mixed whatever the parent method returned
+     * @throws Exception an exception can be thrown if the parent method throws one
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function __call($name, $arguments)
+    {
+        call_user_func_array("parent::{$name}", $arguments);
     }
 }
 

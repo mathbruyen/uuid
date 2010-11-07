@@ -53,7 +53,7 @@
 require_once 'Math/BigInteger.php';
 
 //Load exception class
-require_once realpath(dirname(__FILE__)) . '/Exception.php';
+require_once realpath(dirname(__FILE__)) . '/../util/Exception.php';
 
 /**
  * Class helping manipulation of arbitrary length integers

@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Definition of the mock class for Uuid generator base class
+ * Definition of a base class with capacities handling for generating UUIDs
  *
  * PHP version 5
  *
@@ -50,16 +50,16 @@
  */
 
 // Load interface
-require_once realpath(dirname(__FILE__)) . '/Rfc4122UuidGenerator.php';
+require_once realpath(dirname(__FILE__)) . '/UuidGenerator.php';
 
-// Load interface
-require_once realpath(dirname(__FILE__)) . '/Rfc4122Uuid.php';
+// Load generator capacities
+require_once realpath(dirname(__FILE__)) . '/../requirements/GeneratorCapacities.php';
 
 /**
- * Mock class for testing the base generator class
+ * A basic UUID generator implementation that handles capacities
  * 
- * This class uses the __call magic method to forward protected method calls that
- * are not allowed from public.
+ * It implements methods related to capacities and provide a way to configure them.
+ * All things related to actual UUID generation are up to the subclasses.
  * 
  * @category  Structures
  * @package   UUID
@@ -70,82 +70,81 @@ require_once realpath(dirname(__FILE__)) . '/Rfc4122Uuid.php';
  * @link      http://www.mais-h.eu/doc/index.php/UUID_php_package
  * @since     Interface available since Release 1.0
  */
-class UUID_MockUuidGenerator extends UUID_BaseUuidGenerator
+abstract class UUID_BaseUuidGenerator implements UUID_UuidGenerator
 {
     
+    private $_capacities;
+    
     /**
-     * Constructor
+     * Constructor.
      *
-     * Just calls the parent constructor.
+     * Initializes the capacities.
      * 
      * @return void
-     * 
+     *
      * @access public
      * @since Method available since Release 1.0
      */
     public function __construct()
     {
-        parent::__construct();
+        $this->_capacities = new UUID_GeneratorCapacities();
     }
-    
+
     /**
-     * Generates a new UUID
+     * Informs about the capacities that the generator has
      *
-     * Generates a new UUID respecting the requirements or throw an exception if
-     * requirements cannot be achieved.
+     * The capacities define what the generator can do, like parameters it uses and
+     * their validation, parameters that are mandatory and tags that the generator
+     * fulfills.
      * 
-     * If requirements comply with generarot's capacities (or equivalently if
-     * capacities fulfill requirements) should not throw exception. It is still
-     * allowed to throw exception, but only if there is a configuration problem. If
-     * an exception is thrown after capacities were checked, it thus means a
-     * configuration problem and for example the factory is allowed to remove the
-     * generator.
-     * <code>
-     * //$g = make the generator
-     * //$r = make some requirements
-     * 
-     * $gc = $g->getCapacities();
-     * if ($gc->fulfillRequirements($r)) {
-     *     $uuid = $g->generateUuid($r);// if it fails, it means configuration error
-     * }
-     * </code>
-     * 
-     * @param UUID_UuidRequirements $requirements the requirements that are required
-     *                                              for the UUID
-     * 
-     * @return UUID_Uuid a new UUID
-     * @throws UUID_Exception an exception is throwed is something goes wrong
-     *
-     * @access public
-     * @since Method available since Release 1.0
-     * @see UUID_UuidGenerator::getCapacities()
-     */
-    public function generateUuid($requirements)
-    {
-        // @codeCoverageIgnoreStart
-        return null;
-        // @codeCoverageIgnoreEnd
-    }
-    
-    /**
-     * Forwards calls to parent class not allowed from outside
-     *
-     * The method intercepts all calls that are invalid from outside and tries to
-     * forward them to the parent class. Exceptions or errors can occur for
-     * multiple reasons, like unknown method or invalid parameters.
-     * 
-     * @param string $name      the name of the method called
-     * @param array  $arguments the arguments passed to the call
-     * 
-     * @return mixed whatever the parent method returned
-     * @throws Exception an exception can be thrown if the parent method throws one
+     * @return UUID_GeneratorCapacities
      *
      * @access public
      * @since Method available since Release 1.0
      */
-    public function __call($name, $arguments)
+    public function getCapacities()
     {
-        call_user_func_array("parent::{$name}", $arguments);
+        return $this->_capacities;
+    }
+    
+    /**
+     * Allows a new parameter to the generator's capacities
+     * 
+     * Forwards the call to the capacities object.
+     * 
+     * @param string                    $name        the name of the parameter
+     * @param UUID_ParameterDescription $description the description of allowed
+     *                                                  values
+     * @param boolean                   $required    whether the parameter is
+     *                                                  required or not
+     * 
+     * @return UUID_BaseUuidGenerator the current object, for chaining purpose
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    protected function addParameter($name, $description, $required = true)
+    {
+        $this->_capacities->addParameter($name, $description, $required);
+        return $this;
+    }
+    
+    /**
+     * Allows a new tag to the generator's capacities
+     *
+     * Forwards the call to capacities object.
+     * 
+     * @param string $tag the tag allowed
+     * 
+     * @return UUID_BaseUuidGenerator the current object, for chaining purpose
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    protected function addTag($tag)
+    {
+        $this->_capacities->addTag($tag);
+        return $this;
     }
 }
 

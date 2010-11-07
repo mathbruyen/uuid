@@ -53,7 +53,7 @@
 ini_set('error_reporting', E_ALL | E_STRICT);
 
 // Insert the tested class
-require_once realpath(dirname(__FILE__)) . '/../BigIntegerUtil.php';
+require_once realpath(dirname(__FILE__)) . '/../util/BigIntegerUtil.php';
 
 /**
  * Testing set for the arbitrary integer defined in the package

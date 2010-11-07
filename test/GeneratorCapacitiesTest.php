@@ -53,13 +53,15 @@
 ini_set('error_reporting', E_ALL | E_STRICT);
 
 // Insert the tested class
-require_once realpath(dirname(__FILE__)) . '/../GeneratorCapacities.php';
+require_once realpath(dirname(__FILE__))
+    . '/../requirements/GeneratorCapacities.php';
 
 // Insert requirement class
-require_once realpath(dirname(__FILE__)) . '/../UuidRequirements.php';
+require_once realpath(dirname(__FILE__)) . '/../requirements/UuidRequirements.php';
 
 // Insert integer parameters description
-require_once realpath(dirname(__FILE__)) . '/../IntegerParameterDescription.php';
+require_once realpath(dirname(__FILE__))
+    . '/../requirements/IntegerParameterDescription.php';
 
 /**
  * Testing set for the generator capacities

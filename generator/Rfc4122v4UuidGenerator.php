@@ -49,11 +49,14 @@
  * @since     File available since Release 1.0
  */
 
-// Load interface
+// Load parent class
 require_once realpath(dirname(__FILE__)) . '/Rfc4122UuidGenerator.php';
 
-// Load interface
-require_once realpath(dirname(__FILE__)) . '/Rfc4122Uuid.php';
+// Load uuid class
+require_once realpath(dirname(__FILE__)) . '/../uuid/Rfc4122Uuid.php';
+
+// Load Math_BigInteger package
+require_once 'Math/BigInteger.php';
 
 /**
  * Generator of random RFC4122 UUIDs
