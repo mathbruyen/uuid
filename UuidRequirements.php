@@ -139,7 +139,7 @@ class UUID_UuidRequirements
      * @param string $name  the name of the parameter
      * @param mixed  $value the value to give to the parameter
      * 
-     * @return void
+     * @return UUID_UuidRequirements the current object, for chaining purpose
      *
      * @access public
      * @since Method available since Release 1.0
@@ -147,6 +147,7 @@ class UUID_UuidRequirements
     public function addParameter($name, $value)
     {
         $this->_parameters[$name] = $value;
+        return $this;
     }
     
     /**
@@ -170,7 +171,7 @@ class UUID_UuidRequirements
      * 
      * @param string $tag the tag added
      * 
-     * @return void
+     * @return UUID_UuidRequirements the current object, for chaining purpose
      *
      * @access public
      * @since Method available since Release 1.0
@@ -180,6 +181,7 @@ class UUID_UuidRequirements
         if (!in_array($tag, $this->_tags)) {
             $this->_tags[] = $tag;   
         }
+        return $this;
     }
     
     /**
