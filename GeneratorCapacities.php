@@ -178,7 +178,7 @@ class UUID_GeneratorCapacities
      * @param boolean                   $required    whether the parameter is
      *                                                  required or not
      * 
-     * @return void
+     * @return UUID_GeneratorCapacities the current object, for chaining purpose
      *
      * @access public
      * @since Method available since Release 1.0
@@ -189,6 +189,7 @@ class UUID_GeneratorCapacities
             $this->_requiredParameterNames[] = $name;
         }
         $this->_allParameters[$name] = $description;
+        return $this;
     }
     
     /**
@@ -198,7 +199,7 @@ class UUID_GeneratorCapacities
      * 
      * @param string $tag the tag allowed
      * 
-     * @return void
+     * @return UUID_GeneratorCapacities the current object, for chaining purpose
      *
      * @access public
      * @since Method available since Release 1.0
@@ -208,6 +209,7 @@ class UUID_GeneratorCapacities
         if (!in_array($tag, $this->_tags)) {
             $this->_tags[] = $tag;
         }
+        return $this;
     }
     
     /**
