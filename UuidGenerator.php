@@ -91,7 +91,7 @@ interface UUID_UuidGenerator
 {
     
     /**
-     * Generate a new UUID
+     * Generates a new UUID
      *
      * Generates a new UUID respecting the requirements or throw an exception if
      * requirements cannot be achieved.
