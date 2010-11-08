@@ -305,6 +305,24 @@ class UUID_BigIntegerUtil
         return str_pad($bits, $length, '0', STR_PAD_LEFT);
     }
     
+    /**
+     * Generates a random integer with a given number of bits
+     *
+     * @param int $bitNumber the number of bits in the returned integer
+     * 
+     * @return Math_BigInteger the integer with the requested number of bits
+     *
+     * @access private
+     * @since Method available since Release 1.0
+     */
+    public static function generateRandomInteger($bitNumber)
+    {
+        $bits = '';
+        for ($i = 0; $i < $bitNumber; $i++) {
+            $bits .= mt_rand(0, 1);
+        }
+        return new Math_BigInteger($bits, 2);
+    }
 }
 
 /*

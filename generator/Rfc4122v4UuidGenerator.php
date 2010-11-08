@@ -163,39 +163,17 @@ class UUID_Rfc4122v4UuidGenerator extends UUID_Rfc4122UuidGenerator
      */
     public function generateUuid($requirements)
     {
-        $timestamp = $this->_generateRandomInteger(
+        $timestamp = UUID_BigIntegerUtil::generateRandomInteger(
             UUID_Rfc4122Uuid::TIMESTAMP_BIT_NUMBER
         );
-        $clockSequence = $this->_generateRandomInteger(
+        $clockSequence = UUID_BigIntegerUtil::generateRandomInteger(
             UUID_Rfc4122Uuid::CLOCK_SEQUENCE_BIT_NUMBER
         );
-        $nodeId = $this->_generateRandomInteger(
+        $nodeId = UUID_BigIntegerUtil::generateRandomInteger(
             UUID_Rfc4122Uuid::NODE_ID_BIT_NUMBER
         );
         $version = UUID_Rfc4122Uuid::VERSION_RANDOM;
         return new UUID_Rfc4122Uuid($timestamp, $clockSequence, $nodeId, $version);
-    }
-    
-    /**
-     * Generates a random integer with a given number bits
-     *
-     * Generates a random integer by building a random binary string of the given
-     * size and then converting it to a Math_BigInteger.
-     * 
-     * @param int $size the number of bits to generate
-     * 
-     * @return Math_BigInteger the generated integer
-     *
-     * @access private
-     * @since Method available since Release 1.0
-     */
-    private function _generateRandomInteger($size)
-    {
-        $binaryString = '';
-        for ($i = 0; $i < $size; $i++) {
-            $binaryString .= mt_rand(0, 1);
-        }
-        return new Math_BigInteger($binaryString, 2);
     }
 }
 

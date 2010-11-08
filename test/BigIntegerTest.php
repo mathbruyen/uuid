@@ -337,6 +337,22 @@ class BigIntegerTest extends PHPUnit_Framework_TestCase
             // Normal way
         }
     }
+    
+    /**
+     * Test that the randomly generated integer is not larger than expected
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testGenerateRandomIntegerSize()
+    {
+        $size = 100;
+        $int = UUID_BigIntegerUtil::generateRandomInteger($size);
+        $max = new Math_BigInteger(str_repeat('1', $size), 2);
+        $this->assertTrue($int->compare($max) <= 0);
+    }
 
 }
 

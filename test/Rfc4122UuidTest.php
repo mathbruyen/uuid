@@ -334,35 +334,16 @@ class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
      */
     private function _generateRandomUuid($version)
     {
-        $timestamp = $this->_generateRandomInteger(
+        $timestamp = UUID_BigIntegerUtil::generateRandomInteger(
             UUID_Rfc4122Uuid::TIMESTAMP_BIT_NUMBER
         );
-        $clockSequence = $this->_generateRandomInteger(
+        $clockSequence = UUID_BigIntegerUtil::generateRandomInteger(
             UUID_Rfc4122Uuid::CLOCK_SEQUENCE_BIT_NUMBER
         );
-        $nodeId = $this->_generateRandomInteger(
+        $nodeId = UUID_BigIntegerUtil::generateRandomInteger(
             UUID_Rfc4122Uuid::NODE_ID_BIT_NUMBER
         );
         return new UUID_Rfc4122Uuid($timestamp, $clockSequence, $nodeId, $version);
-    }
-    
-    /**
-     * Generates a random integer with a given number of bits
-     *
-     * @param int $bitNumber the number of bits in the returned integer
-     * 
-     * @return Math_BigInteger the integer with the requested number of bits
-     *
-     * @access private
-     * @since Method available since Release 1.0
-     */
-    private function _generateRandomInteger($bitNumber)
-    {
-        $bits = '';
-        for ($i = 0; $i < $bitNumber; $i++) {
-            $bits .= mt_rand(0, 1);
-        }
-        return new Math_BigInteger($bits, 2);
     }
 }
 
