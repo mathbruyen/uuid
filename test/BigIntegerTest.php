@@ -66,6 +66,7 @@ require_once realpath(dirname(__FILE__)) . '/../util/BigIntegerUtil.php';
  * @version   Release: @package_version@
  * @link      http://www.mais-h.eu/doc/index.php/UUID_php_package
  * @since     Class available since Release 1.0
+ * @covers UUID_BigIntegerUtil
  */
 class BigIntegerTest extends PHPUnit_Framework_TestCase
 {
