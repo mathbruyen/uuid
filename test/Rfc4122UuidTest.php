@@ -327,6 +327,120 @@ class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
     }
     
     /**
+     * Negative timestamp is silently corrected
+     * 
+     * The fields are built with integers with all bits set to 1, and the timestamp
+     * has a minus. The UUID should take the absolute value of it and no exception
+     * throwed.
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testNegativeTimestamp()
+    {
+        $timestamp = new Math_BigInteger(
+            '-' . str_repeat('1', UUID_Rfc4122Uuid::TIMESTAMP_BIT_NUMBER),
+            2
+        );
+        $clockSequence = new Math_BigInteger(
+            str_repeat('1', UUID_Rfc4122Uuid::CLOCK_SEQUENCE_BIT_NUMBER),
+            2
+        );
+        $nodeId = new Math_BigInteger(
+            str_repeat('1', UUID_Rfc4122Uuid::NODE_ID_BIT_NUMBER * 2),
+            2
+        );
+        $version = UUID_Rfc4122Uuid::VERSION_RANDOM;
+        
+        try {
+            $u = new UUID_Rfc4122Uuid($timestamp, $clockSequence, $nodeId, $version);
+            $u->__toString();
+            $u->toURN();
+            $u->toRawInt();
+        } catch (UUID_Exception $e) {
+            $this->fail();
+        }
+    }
+    
+    /**
+     * Negative clock sequence is silently corrected
+     * 
+     * The fields are built with integers with all bits set to 1, and the clock
+     * sequence has a minus. The UUID should take the absolute value of it and no
+     * exception throwed.
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testNegativeClockSequence()
+    {
+        $timestamp = new Math_BigInteger(
+            str_repeat('1', UUID_Rfc4122Uuid::TIMESTAMP_BIT_NUMBER),
+            2
+        );
+        $clockSequence = new Math_BigInteger(
+            '-' . str_repeat('1', UUID_Rfc4122Uuid::CLOCK_SEQUENCE_BIT_NUMBER),
+            2
+        );
+        $nodeId = new Math_BigInteger(
+            str_repeat('1', UUID_Rfc4122Uuid::NODE_ID_BIT_NUMBER * 2),
+            2
+        );
+        $version = UUID_Rfc4122Uuid::VERSION_RANDOM;
+        
+        try {
+            $u = new UUID_Rfc4122Uuid($timestamp, $clockSequence, $nodeId, $version);
+            $u->__toString();
+            $u->toURN();
+            $u->toRawInt();
+        } catch (UUID_Exception $e) {
+            $this->fail();
+        }
+    }
+    
+    /**
+     * Negative node identifier is silently corrected
+     * 
+     * The fields are built with integers with all bits set to 1, and the node
+     * identifier has a minus. The UUID should take the absolute value of it and no
+     * exception throwed.
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testNegativeNodeIdentifier()
+    {
+        $timestamp = new Math_BigInteger(
+            str_repeat('1', UUID_Rfc4122Uuid::TIMESTAMP_BIT_NUMBER),
+            2
+        );
+        $clockSequence = new Math_BigInteger(
+            str_repeat('1', UUID_Rfc4122Uuid::CLOCK_SEQUENCE_BIT_NUMBER),
+            2
+        );
+        $nodeId = new Math_BigInteger(
+            '-' . str_repeat('1', UUID_Rfc4122Uuid::NODE_ID_BIT_NUMBER * 2),
+            2
+        );
+        $version = UUID_Rfc4122Uuid::VERSION_RANDOM;
+        
+        try {
+            $u = new UUID_Rfc4122Uuid($timestamp, $clockSequence, $nodeId, $version);
+            $u->__toString();
+            $u->toURN();
+            $u->toRawInt();
+        } catch (UUID_Exception $e) {
+            $this->fail();
+        }
+    }
+    
+    /**
      * Builds a random UUID with the given version
      *
      * @param int $version the version of the UUID created

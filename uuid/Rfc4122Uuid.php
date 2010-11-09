@@ -265,19 +265,19 @@ class UUID_Rfc4122Uuid implements UUID_Uuid
     public function __construct($timestamp, $clockSequence, $nodeId, $version)
     {
         // Record data
-        $this->_timestamp = $timestamp->bitwise_and(
+        $this->_timestamp = $timestamp->abs()->bitwise_and(
             new Math_BigInteger(
                 str_repeat('1', self::TIMESTAMP_BIT_NUMBER),
                 2
             )
         );
-        $this->_clockSequence = $clockSequence->bitwise_and(
+        $this->_clockSequence = $clockSequence->abs()->bitwise_and(
             new Math_BigInteger(
                 str_repeat('1', self::CLOCK_SEQUENCE_BIT_NUMBER),
                 2
             )
         );
-        $this->_nodeId = $nodeId->bitwise_and(
+        $this->_nodeId = $nodeId->abs()->bitwise_and(
             new Math_BigInteger(
                 str_repeat('1', self::NODE_ID_BIT_NUMBER),
                 2
