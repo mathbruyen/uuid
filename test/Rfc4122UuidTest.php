@@ -215,6 +215,10 @@ class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
     /**
      * Timestamp too large is silently shrinked
      * 
+     * The fields are built with integers with all bits set to 1. The timestamp
+     * is however of length its expected size doubled. The UUID should shrink them
+     * and no exception throwed.
+     * 
      * @return void
      *
      * @access public
@@ -247,12 +251,11 @@ class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
     }
     
     /**
-     * Tries to build a UUID with too large clock sequence
+     * Clock sequence too large is silently shrinked
      * 
      * The fields are built with integers with all bits set to 1. The clock sequence
-     * is however of a larger length than its possible. Note that it is possible to
-     * have 2 bits larger than the size acknowledged in constants because of the
-     * multiplexing, bits are accepted but erased.
+     * is however of length its expected size doubled. The UUID should shrink it
+     * and no exception throwed.
      * 
      * @return void
      *
@@ -286,10 +289,11 @@ class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
     }
     
     /**
-     * Tries to build a UUID with too large node identifier
+     * Node identifier too large is silently shrinked
      * 
      * The fields are built with integers with all bits set to 1. The node identifier
-     * is however of length its expected size plus one.
+     * is however of length its expected size doubled. The UUID should shrink it
+     * and no exception throwed.
      * 
      * @return void
      *
