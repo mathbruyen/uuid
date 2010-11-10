@@ -4,7 +4,7 @@
 echo "-----------------------------------------------------------------"
 totalTodoNumber=0
 totalFiles=0
-for f in $(ls *.php test/*.php)
+for f in $(ls *.php */*.php)
 do
     todoNumber=$(cat $f | grep TODO | wc -l)
     if [ $todoNumber -gt 0 ]
@@ -23,4 +23,4 @@ echo
 phpunit --coverage-html ./report test/
 
 # CodeSniffer
-phpcs --standard=PEAR *.php test/*.php
+phpcs --standard=PEAR *.php */*.php
