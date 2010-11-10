@@ -317,6 +317,41 @@ class RequirementsLibraryTest extends PHPUnit_Framework_TestCase
     }
     
     /**
+     * Test that the size extracted is the one given originally
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testSizeExtracted()
+    {
+        $size = 100;
+        $r = new UUID_UuidRequirements();
+        UUID_RequirementsLibrary::requestSize($r, $size);
+        $this->assertEquals(
+            $size,
+            UUID_RequirementsLibrary::extractSize($r),
+            'The size extracted must be the one set originally'
+        );
+    }
+    
+    /**
+     * Test that an exception is throwed if the size was not originally set
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testSizeExtractedNoSizeProvided()
+    {
+        $this->setExpectedException('UUID_Exception');
+        $r = new UUID_UuidRequirements();
+        UUID_RequirementsLibrary::extractSize($r);
+    }
+    
+    /**
      * Test name based requirements with no parameters
      * 
      * By default name is required
@@ -373,6 +408,41 @@ class RequirementsLibraryTest extends PHPUnit_Framework_TestCase
             $gc->fulfillRequirements($r),
             'Name is provided'
         );
+    }
+    
+    /**
+     * Test that the name extracted is the one given originally
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testNameExtracted()
+    {
+        $name = 'bla';
+        $r = new UUID_UuidRequirements();
+        UUID_RequirementsLibrary::setName($r, $name);
+        $this->assertEquals(
+            $name,
+            UUID_RequirementsLibrary::extractName($r),
+            'The name extracted must be the one set originally'
+        );
+    }
+    
+    /**
+     * Test that an exception is throwed if the name was not originally set
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testNameExtractedNoNameProvided()
+    {
+        $this->setExpectedException('UUID_Exception');
+        $r = new UUID_UuidRequirements();
+        UUID_RequirementsLibrary::extractName($r);
     }
 }
 

@@ -137,7 +137,8 @@ class UUID_RequirementsLibrary
      * UUID_RequirementsLibrary::allowSize($gc, $parameters);
      * </code>
      * Requirements complying with these capacities should be defined by the
-     * corresponding method: requestSize.
+     * corresponding method: requestSize. The size given in parameters can be then
+     * extracted using: extractSize.
      * 
      * @param UUID_GeneratorCapacities $capacities the capacities that are to accept
      *                                              the size parameter
@@ -152,6 +153,7 @@ class UUID_RequirementsLibrary
      * @access public
      * @since Method available since Release 1.0
      * @see UUID_RequirementsLibrary::requestSize()
+     * @see UUID_RequirementsLibrary::extractSize()
      */
     public static function allowSize($capacities, $parameters = array())
     {
@@ -222,6 +224,35 @@ class UUID_RequirementsLibrary
     }
     
     /**
+     * Returns the size parameter from requirements
+     * 
+     * The size parameter in requirements is returned if present, otherwise an
+     * exception is throwed. Requirements should be first checked agains capacities
+     * that have been passed through allowSize method. Even if it has been the case,
+     * an exception can be throwed: if the parameter was optional. In that case the
+     * generator must use a default size.
+     * 
+     * @param UUID_UuidRequirements $requirements the requirements
+     * 
+     * @return int the requested size of the raw integer version of the generated
+     *              UUID
+     * @throw UUID_Exception if the size was not previously specified
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     * @see UUID_RequirementsLibrary::allowSize()
+     * @see UUID_RequirementsLibrary::requestSize()
+     */
+    public static function extractSize($requirements)
+    {
+        $parameters = $requirements->getParameters();
+        if (!array_key_exists(self::PARAMETER_NAME_SIZE, $parameters)) {
+            throw new UUID_Exception('The size parameter is not present');
+        }
+        return $parameters[self::PARAMETER_NAME_SIZE];
+    }
+    
+    /**
      * Enable name based UUID generator
      * 
      * The generator ensures that it can produce name based UUIDs. It is possible to
@@ -268,6 +299,34 @@ class UUID_RequirementsLibrary
         $requirements->addTag(self::TAG_NAME_BASED);
         $requirements->addParameter(self::PARAMETER_NAME_NAME, $name);
         return $requirements;
+    }
+    
+    /**
+     * Returns the name parameter from requirements
+     * 
+     * The name parameter in requirements is returned if present, otherwise an
+     * exception is throwed. Requirements should be first checked agains capacities
+     * that have been passed through setNameBased method. Even if it has been the
+     * case, an exception can be throwed: if the parameter was optional. In that case
+     * the generator must use a default name.
+     * 
+     * @param UUID_UuidRequirements $requirements the requirements
+     * 
+     * @return string the requested name used to generate a name based UUID
+     * @throw UUID_Exception if the name was not previously specified
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     * @see UUID_RequirementsLibrary::setNameBased()
+     * @see UUID_RequirementsLibrary::setName()
+     */
+    public static function extractName($requirements)
+    {
+        $parameters = $requirements->getParameters();
+        if (!array_key_exists(self::PARAMETER_NAME_NAME, $parameters)) {
+            throw new UUID_Exception('The name parameter is not present');
+        }
+        return $parameters[self::PARAMETER_NAME_NAME];
     }
 }
 
