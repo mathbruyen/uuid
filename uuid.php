@@ -54,10 +54,6 @@
  * @since     File available since Release 1.0
  */
 
-
-///TODO remove
-require_once realpath(dirname(__FILE__)) . '/Rfc4122Uuid.php';
-
 /*
  * Local variables:
  * tab-width: 4
