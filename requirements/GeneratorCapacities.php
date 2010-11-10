@@ -185,6 +185,7 @@ class UUID_GeneratorCapacities
      */
     public function addParameter($name, $description, $required = true)
     {
+        $name = "{$name}";
         if (($required) && (!in_array($name, $this->_requiredParameterNames))) {
             $this->_requiredParameterNames[] = $name;
         }
@@ -206,6 +207,7 @@ class UUID_GeneratorCapacities
      */
     public function addTag($tag)
     {
+        $tag = "{$tag}";
         if (!in_array($tag, $this->_tags)) {
             $this->_tags[] = $tag;
         }
