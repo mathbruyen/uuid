@@ -53,7 +53,7 @@
 ini_set('error_reporting', E_ALL | E_STRICT);
 
 // Insert the tested class
-require_once realpath(dirname(__FILE__)) . '/../uuid/Rfc4122Uuid.php';
+require_once realpath(__DIR__) . '/../uuid/Rfc4122Uuid.php';
 
 /**
  * Testing set for the RFC4122 Uuid

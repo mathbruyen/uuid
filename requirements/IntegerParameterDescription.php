@@ -50,10 +50,10 @@
  */
 
 // Load exception
-require_once realpath(dirname(__FILE__)) . '/../util/Exception.php';
+require_once realpath(__DIR__) . '/../util/Exception.php';
 
 // Load the interface
-require_once realpath(dirname(__FILE__)) . '/../requirements/ParameterDescription.php';
+require_once realpath(__DIR__) . '/../requirements/ParameterDescription.php';
 
 /**
  * Class representing description of an integer parameter

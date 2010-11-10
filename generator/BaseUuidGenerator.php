@@ -50,10 +50,10 @@
  */
 
 // Load interface
-require_once realpath(dirname(__FILE__)) . '/UuidGenerator.php';
+require_once realpath(__DIR__) . '/UuidGenerator.php';
 
 // Load generator capacities
-require_once realpath(dirname(__FILE__)) . '/../requirements/GeneratorCapacities.php';
+require_once realpath(__DIR__) . '/../requirements/GeneratorCapacities.php';
 
 /**
  * A basic UUID generator implementation that handles capacities

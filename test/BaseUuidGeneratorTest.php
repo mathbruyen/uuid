@@ -53,18 +53,16 @@
 ini_set('error_reporting', E_ALL | E_STRICT);
 
 // Insert the tested class
-require_once realpath(dirname(__FILE__)) . '/../generator/MockUuidGenerator.php';
+require_once realpath(__DIR__) . '/../generator/MockUuidGenerator.php';
 
 // Insert the requirements class
-require_once realpath(dirname(__FILE__)) . '/../requirements/UuidRequirements.php';
+require_once realpath(__DIR__) . '/../requirements/UuidRequirements.php';
 
 // Insert the capacities class
-require_once realpath(dirname(__FILE__))
-    . '/../requirements/GeneratorCapacities.php';
+require_once realpath(__DIR__) . '/../requirements/GeneratorCapacities.php';
 
 // Insert the integer parameter descriptions class
-require_once realpath(dirname(__FILE__))
-    . '/../requirements/IntegerParameterDescription.php';
+require_once realpath(__DIR__) . '/../requirements/IntegerParameterDescription.php';
 
 /**
  * Testing set for the base Uuid generator

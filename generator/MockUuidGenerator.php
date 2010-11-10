@@ -50,7 +50,7 @@
  */
 
 // Load base class
-require_once realpath(dirname(__FILE__)) . '/BaseUuidGenerator.php';
+require_once realpath(__DIR__) . '/BaseUuidGenerator.php';
 
 /**
  * Mock class for testing the base generator class

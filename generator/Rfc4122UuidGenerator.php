@@ -50,7 +50,7 @@
  */
 
 // Load base class
-require_once realpath(dirname(__FILE__)) . '/BaseUuidGenerator.php';
+require_once realpath(__DIR__) . '/BaseUuidGenerator.php';
 
 /**
  * The basic class for RFC4122 UUID generators
