@@ -101,7 +101,7 @@ class UUID_UuidRequirements
      * @var array
      * @access private
      */
-    private $_parameters;
+    private $_parameters = array();
     
     /**
      * Tags required
@@ -109,7 +109,7 @@ class UUID_UuidRequirements
      * @var array
      * @access private
      */
-    private $_tags;
+    private $_tags = array();
     
     /**
      * Constructor of the requirements optionnaly taking the parameters and tags
@@ -129,8 +129,12 @@ class UUID_UuidRequirements
      */
     public function __construct($parameters = array(), $tags = array())
     {
-        $this->_parameters = $parameters;
-        $this->_tags = array_unique($tags);
+        foreach ($parameters as $name => $value) {
+            $this->addParameter($name, $value);
+        }
+        foreach ($tags as $tag) {
+            $this->addTag($tag);
+        }
     }
     
     /**
@@ -146,7 +150,7 @@ class UUID_UuidRequirements
      */
     public function addParameter($name, $value)
     {
-        $this->_parameters[$name] = $value;
+        $this->_parameters["{$name}"] = $value;
         return $this;
     }
     
@@ -178,6 +182,7 @@ class UUID_UuidRequirements
      */
     public function addTag($tag)
     {
+        $tag = "{$tag}";
         if (!in_array($tag, $this->_tags)) {
             $this->_tags[] = $tag;   
         }
