@@ -315,6 +315,65 @@ class RequirementsLibraryTest extends PHPUnit_Framework_TestCase
             );
         }
     }
+    
+    /**
+     * Test name based requirements with no parameters
+     * 
+     * By default name is required
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testNameRequirementsNoParameters()
+    {
+        $r = new UUID_UuidRequirements();
+        $gc = new UUID_GeneratorCapacities();
+        
+        UUID_RequirementsLibrary::setNameBased($gc);
+        
+        $this->assertFalse(
+            $gc->fulfillRequirements($r),
+            'The name parameter is required'
+        );
+        
+        UUID_RequirementsLibrary::setName($r, 'bla');
+        
+        $this->assertTrue(
+            $gc->fulfillRequirements($r),
+            'Requirements have name parameter'
+        );
+    }
+    
+    /**
+     * Test name requirements with not required parameter
+     * 
+     * Requirements without name are accepted as well as with.
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testNameRequirementsNotRequired()
+    {
+        $r = new UUID_UuidRequirements();
+        $gc = new UUID_GeneratorCapacities();
+        UUID_RequirementsLibrary::setNameBased($gc, false);
+        
+        $this->assertTrue(
+            $gc->fulfillRequirements($r),
+            'Name parameter is not required'
+        );
+        
+        UUID_RequirementsLibrary::setName($r, 'bla');
+        
+        $this->assertTrue(
+            $gc->fulfillRequirements($r),
+            'Name is provided'
+        );
+    }
 }
 
 /*

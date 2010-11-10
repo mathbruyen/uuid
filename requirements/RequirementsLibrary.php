@@ -96,11 +96,25 @@ class UUID_RequirementsLibrary
 {
     
     /**
+     * Tag for name based generators
+     *
+     * @var string
+     */
+    const TAG_NAME_BASED = 'name_based';
+    
+    /**
      * Parameter name for raw integer size
      *
      * @var string
      */
     const PARAMETER_NAME_SIZE = 'size';
+    
+    /**
+     * Parameter name for name in name based UUIDs
+     *
+     * @var string
+     */
+    const PARAMETER_NAME_NAME = 'name';
     
     /**
      * Allow size parameter in a UUID generator
@@ -169,7 +183,8 @@ class UUID_RequirementsLibrary
         
         $required = true;
         if ((array_key_exists($requiredKey, $parameters))
-                && ($parameters[$requiredKey] === false)) {
+            && ($parameters[$requiredKey] === false)
+        ) {
             $required = false;
         }
         
@@ -191,18 +206,67 @@ class UUID_RequirementsLibrary
      * by the corresponding methods: allowSize.
      * 
      * @param UUID_UuidRequirements $requirements the requirements
+     * @param int                   $size         the size requested
      * 
-     * @return void
-     * @throw UUID_Exception if the provided value is not an int or is inconsistent
-     *                          with maximum
+     * @return UUID_UuidRequirements the requirements for chaining purpose (the
+     *                                  original object is modified)
      *
      * @access public
      * @since Method available since Release 1.0
-     * @see UUID_RequirementsLibrary::requestSize()
+     * @see UUID_RequirementsLibrary::allowSize()
      */
     public static function requestSize($requirements, $size)
     {
         $requirements->addParameter(self::PARAMETER_NAME_SIZE, $size);
+        return $requirements;
+    }
+    
+    /**
+     * Enable name based UUID generator
+     * 
+     * The generator ensures that it can produce name based UUIDs. It is possible to
+     * tell if the name is required or not.
+     * 
+     * @param UUID_GeneratorCapacities $capacities the capacities that are to accept
+     *                                              the size parameter
+     * @param boolean                  $required   if the name is required in
+     *                                              requirements
+     * 
+     * @return UUID_GeneratorCapacities the capacities, just for chaining purpose
+     *                                  (the original object is modified)
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     * @see UUID_RequirementsLibrary::setName()
+     */
+    public static function setNameBased($capacities, $required = true)
+    {
+        $capacities->addTag(self::TAG_NAME_BASED);
+        $pd = new UUID_StringParameterDescription();
+        $capacities->addParameter(self::PARAMETER_NAME_NAME, $pd, $required);
+        return $capacities;
+    }
+    
+    /**
+     * Requires that the UUID is name based
+     * 
+     * The requirements then specify that the UUID generated must be a name based one
+     * with the name given in parameters
+     * 
+     * @param UUID_UuidRequirements $requirements the requirements
+     * @param string                $name         the name used to generate the UUID
+     * 
+     * @return UUID_UuidRequirements the requirements, just for chaining purpose
+     *                                  (the original object is modified)
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     * @see UUID_RequirementsLibrary::setNameBased()
+     */
+    public static function setName($requirements, $name)
+    {
+        $requirements->addTag(self::TAG_NAME_BASED);
+        $requirements->addParameter(self::PARAMETER_NAME_NAME, $name);
         return $requirements;
     }
 }
