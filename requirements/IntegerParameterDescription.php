@@ -93,7 +93,7 @@ require_once realpath(__DIR__) . '/../requirements/ParameterDescription.php';
  * $pd->check(3);// false
  * </code>
  * The last possibility is to use both paradigm, setting min and/or max and a set of
- * possible values. In all cases the type is checked to only have integers. 
+ * possible values. In all cases the type is checked to only have integers.
  *
  * @category  Structures
  * @package   UUID
@@ -181,7 +181,7 @@ class UUID_IntegerParameterDescription implements UUID_ParameterDescription
     }
     
     /**
-     * Sets the minimum value to allow
+     * Sets the maximum value to allow
      * 
      * The value of the maximum is set and value greater than that will be then
      * rejected in check().
@@ -228,6 +228,7 @@ class UUID_IntegerParameterDescription implements UUID_ParameterDescription
      * $pd->setValues(array(3, 6));
      * 
      * $pd->check(5);// false
+     * $pd->check(3);// true
      * </code>
      * 
      * @param array $values an array of integers
@@ -242,11 +243,11 @@ class UUID_IntegerParameterDescription implements UUID_ParameterDescription
     public function setValues($values)
     {
         if (!is_array($values)) {
-            throw new UUID_Exception('Values must be an array of integer');
+            throw new UUID_Exception('Values must be an array of integers');
         }
         foreach ($values as $value) {
             if (!is_int($value)) {
-                throw new UUID_Exception('Values must be an array of integer');
+                throw new UUID_Exception('Values must be an array of integers');
             }
         }
         $this->_values = $values;
