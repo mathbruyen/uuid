@@ -58,6 +58,9 @@ require_once realpath(__DIR__) . '/../generator/Rfc4122v4UuidGenerator.php';
 // Insert the requirements class
 require_once realpath(__DIR__) . '/../requirements/UuidRequirements.php';
 
+// Insert the requirements library
+require_once realpath(__DIR__) . '/../requirements/RequirementsLibrary.php';
+
 /**
  * Testing set for the random RFC4122 Uuid generator
  * 
@@ -104,6 +107,24 @@ class Rfc4122v4UuidGeneratorTest extends PHPUnit_Framework_TestCase
         $g = new UUID_Rfc4122v4UuidGenerator();
         $r = new UUID_UuidRequirements();
         $r->addTag(UUID_Rfc4122UuidGenerator::TAG_RFC4122_UUID);
+        
+        $this->assertTrue($g->getCapacities()->fulfillRequirements($r));
+    }
+    
+    /**
+     * Test that the generator accepts the 128bits size parameter
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testAcceptSizeParameter()
+    {
+        $g = new UUID_Rfc4122v4UuidGenerator();
+        
+        $r = new UUID_UuidRequirements();
+        UUID_RequirementsLibrary::requestSize($r, 128);
         
         $this->assertTrue($g->getCapacities()->fulfillRequirements($r));
     }

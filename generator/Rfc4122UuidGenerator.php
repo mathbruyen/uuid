@@ -52,6 +52,12 @@
 // Load base class
 require_once realpath(__DIR__) . '/BaseUuidGenerator.php';
 
+// Load UUID class
+require_once realpath(__DIR__) . '/../uuid/Rfc4122Uuid.php';
+
+// Load requirements library
+require_once realpath(__DIR__) . '/../requirements/RequirementsLibrary.php';
+
 /**
  * The basic class for RFC4122 UUID generators
  * 
@@ -91,6 +97,13 @@ abstract class UUID_Rfc4122UuidGenerator extends UUID_BaseUuidGenerator
     {
         parent::__construct();
         $this->addTag(self::TAG_RFC4122_UUID);
+        UUID_RequirementsLibrary::allowSize(
+            $this->getCapacities(),
+            array(
+                'values' => array(UUID_Rfc4122Uuid::INTEGER_SIZE),
+                'required' => false,
+            )
+        );
     }
 }
 
