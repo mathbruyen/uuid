@@ -215,6 +215,21 @@ class UUID_GeneratorCapacities
     }
     
     /**
+     * Returns all tags accepted
+     *
+     * All tags accepted are returned in an array.
+     * 
+     * @return array all the accepted tags
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function getTags()
+    {
+        return $this->_tags;
+    }
+    
+    /**
      * Checks if these capacities fulfills the requirements
      *
      * All parameters and tags used in the requirements must be declared. All values
