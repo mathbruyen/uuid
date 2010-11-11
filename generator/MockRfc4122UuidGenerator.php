@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Testing the random RFC4122 UUIDs generator
+ * Definition of the mock class for Rfc4122 Uuid generator class
  *
  * PHP version 5
  *
@@ -49,20 +49,14 @@
  * @since     File available since Release 1.0
  */
 
-// Set the error handling to the maximum
-ini_set('error_reporting', E_ALL | E_STRICT);
-
-// Insert the tested class
-require_once realpath(__DIR__) . '/../generator/Rfc4122v4UuidGenerator.php';
-
-// Insert the requirements class
-require_once realpath(__DIR__) . '/../requirements/UuidRequirements.php';
-
-// Insert the requirements library
-require_once realpath(__DIR__) . '/../requirements/RequirementsLibrary.php';
+// Load base class
+require_once realpath(__DIR__) . '/BaseUuidGenerator.php';
 
 /**
- * Testing set for the random RFC4122 Uuid generator
+ * Mock class for testing the Rfc4122 generator class
+ * 
+ * This class uses the __call magic method to forward protected method calls that
+ * are not allowed from public.
  * 
  * @category  Structures
  * @package   UUID
@@ -71,97 +65,86 @@ require_once realpath(__DIR__) . '/../requirements/RequirementsLibrary.php';
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @version   Release: @package_version@
  * @link      http://www.mais-h.eu/doc/index.php/UUID_php_package
- * @since     Class available since Release 1.0
- * @covers UUID_Rfc4122v4UuidGenerator
+ * @since     Interface available since Release 1.0
  */
-class Rfc4122v4UuidGeneratorTest extends PHPUnit_Framework_TestCase
+class UUID_MockRfc4122UuidGenerator extends UUID_Rfc4122UuidGenerator
 {
     
     /**
-     * Test that the uuid is a RFC4122 one
+     * Constructor
+     *
+     * Just calls the parent constructor with an instance of capacities if wanted.
+     * 
+     * @param int $version the version if specified
      * 
      * @return void
-     *
+     * 
      * @access public
      * @since Method available since Release 1.0
      */
-    public function testRfc4122()
+    public function __construct($version = null)
     {
-        $g = new UUID_Rfc4122v4UuidGenerator();
-        $r = new UUID_UuidRequirements();
-        $uuid = $g->generateUuid($r);
-        
-        $this->assertTrue($uuid instanceof UUID_Rfc4122Uuid);
+        call_user_func_array("parent::__construct", func_get_args());
     }
     
     /**
-     * Test that the generator accepts the RFC4122 tag
+     * Generates a new UUID
+     *
+     * Generates a new UUID respecting the requirements or throw an exception if
+     * requirements cannot be achieved.
      * 
-     * @return void
+     * If requirements comply with generarot's capacities (or equivalently if
+     * capacities fulfill requirements) should not throw exception. It is still
+     * allowed to throw exception, but only if there is a configuration problem. If
+     * an exception is thrown after capacities were checked, it thus means a
+     * configuration problem and for example the factory is allowed to remove the
+     * generator.
+     * <code>
+     * //$g = make the generator
+     * //$r = make some requirements
+     * 
+     * $gc = $g->getCapacities();
+     * if ($gc->fulfillRequirements($r)) {
+     *     $uuid = $g->generateUuid($r);// if it fails, it means configuration error
+     * }
+     * </code>
+     * 
+     * @param UUID_UuidRequirements $requirements the requirements that are required
+     *                                              for the UUID
+     * 
+     * @return UUID_Uuid a new UUID
+     * @throws UUID_Exception an exception is throwed is something goes wrong
      *
      * @access public
      * @since Method available since Release 1.0
+     * @see UUID_UuidGenerator::getCapacities()
      */
-    public function testAcceptTagRfc4122()
+    public function generateUuid($requirements)
     {
-        $g = new UUID_Rfc4122v4UuidGenerator();
-        
-        $r1 = new UUID_UuidRequirements();
-        UUID_RequirementsLibrary::requestRfc4122($r1);
-        $this->assertTrue(
-            $g->getCapacities()->fulfillRequirements($r1),
-            'RFC4122v4 accepts RFC4122 tag'
-        );
-        
-        $r2 = new UUID_UuidRequirements();
-        UUID_RequirementsLibrary::requestRfc4122($r2, 4);
-        $this->assertTrue(
-            $g->getCapacities()->fulfillRequirements($r2),
-            'RFC4122v4 accepts RFC4122v4 tag'
-        );
-        
-        $r3 = new UUID_UuidRequirements();
-        UUID_RequirementsLibrary::requestRfc4122($r3, 1);
-        $this->assertFalse(
-            $g->getCapacities()->fulfillRequirements($r3),
-            'RFC4122v4 does not accept other versions'
-        );
+        // @codeCoverageIgnoreStart
+        return null;
+        // @codeCoverageIgnoreEnd
     }
     
     /**
-     * Test that the generator accepts the unguessable generation
+     * Forwards calls to parent class not allowed from outside
+     *
+     * The method intercepts all calls that are invalid from outside and tries to
+     * forward them to the parent class. Exceptions or errors can occur for
+     * multiple reasons, like unknown method or invalid parameters.
      * 
-     * @return void
+     * @param string $name      the name of the method called
+     * @param array  $arguments the arguments passed to the call
+     * 
+     * @return mixed whatever the parent method returned
+     * @throws Exception an exception can be thrown if the parent method throws one
      *
      * @access public
      * @since Method available since Release 1.0
      */
-    public function testAcceptUnguessableGeneration()
+    public function __call($name, $arguments)
     {
-        $g = new UUID_Rfc4122v4UuidGenerator();
-        
-        $r = new UUID_UuidRequirements();
-        UUID_RequirementsLibrary::requestUnguessable($r);
-        
-        $this->assertTrue($g->getCapacities()->fulfillRequirements($r));
-    }
-    
-    /**
-     * Test that the generator accepts the 128bits size parameter
-     * 
-     * @return void
-     *
-     * @access public
-     * @since Method available since Release 1.0
-     */
-    public function testAcceptSizeParameter()
-    {
-        $g = new UUID_Rfc4122v4UuidGenerator();
-        
-        $r = new UUID_UuidRequirements();
-        UUID_RequirementsLibrary::requestSize($r, 128);
-        
-        $this->assertTrue($g->getCapacities()->fulfillRequirements($r));
+        return call_user_func_array("parent::{$name}", $arguments);
     }
 }
 

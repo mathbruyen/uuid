@@ -110,13 +110,6 @@ class UUID_Rfc4122v4UuidGenerator extends UUID_Rfc4122UuidGenerator
 {
     
     /**
-     * The tag used for random RFC4122 UUIDs
-     * 
-     * @var string
-     */
-    const TAG_RFC4122_RANDOM_UUID = 'Rfc4122_v4';
-    
-    /**
      * Constructor
      *
      * Adds the tag corresponding to random RFC4122 UUIDs.
@@ -128,8 +121,7 @@ class UUID_Rfc4122v4UuidGenerator extends UUID_Rfc4122UuidGenerator
      */
     public function __construct()
     {
-        parent::__construct();
-        $this->addTag(self::TAG_RFC4122_RANDOM_UUID);
+        parent::__construct(UUID_Rfc4122Uuid::VERSION_RANDOM);
         UUID_RequirementsLibrary::allowUnguessable($this->getCapacities());
     }
     

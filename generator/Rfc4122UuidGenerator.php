@@ -77,26 +77,29 @@ abstract class UUID_Rfc4122UuidGenerator extends UUID_BaseUuidGenerator
 {
     
     /**
-     * The tag used for RFC4122 UUIDs
-     * 
-     * @var string
-     */
-    const TAG_RFC4122_UUID = 'Rfc4122';
-    
-    /**
      * Constructor
      *
      * Calls the parent constructor and add the RFC4122 UUID tag.
+     * 
+     * @param int $version the version, if specified
      * 
      * @return void
      *
      * @access public
      * @since Method available since Release 1.0
      */
-    public function __construct()
+    public function __construct($version = null)
     {
         parent::__construct();
-        $this->addTag(self::TAG_RFC4122_UUID);
+        
+        // RFC4122 tag
+        if ($version === null) {
+            UUID_RequirementsLibrary::allowRfc4122($this->getCapacities());
+        } else {
+            UUID_RequirementsLibrary::allowRfc4122($this->getCapacities(), $version);
+        }
+        
+        // Size parameter
         UUID_RequirementsLibrary::allowSize(
             $this->getCapacities(),
             array(

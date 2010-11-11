@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Testing the random RFC4122 UUIDs generator
+ * Testing the base RFC4122 UUIDs generator through the mock version
  *
  * PHP version 5
  *
@@ -53,7 +53,7 @@
 ini_set('error_reporting', E_ALL | E_STRICT);
 
 // Insert the tested class
-require_once realpath(__DIR__) . '/../generator/Rfc4122v4UuidGenerator.php';
+require_once realpath(__DIR__) . '/../generator/MockRfc4122UuidGenerator.php';
 
 // Insert the requirements class
 require_once realpath(__DIR__) . '/../requirements/UuidRequirements.php';
@@ -62,7 +62,7 @@ require_once realpath(__DIR__) . '/../requirements/UuidRequirements.php';
 require_once realpath(__DIR__) . '/../requirements/RequirementsLibrary.php';
 
 /**
- * Testing set for the random RFC4122 Uuid generator
+ * Testing set for the base RFC4122 Uuid generator
  * 
  * @category  Structures
  * @package   UUID
@@ -72,95 +72,106 @@ require_once realpath(__DIR__) . '/../requirements/RequirementsLibrary.php';
  * @version   Release: @package_version@
  * @link      http://www.mais-h.eu/doc/index.php/UUID_php_package
  * @since     Class available since Release 1.0
- * @covers UUID_Rfc4122v4UuidGenerator
+ * @covers UUID_Rfc4122UuidGenerator
+ * @covers UUID_MockRfc4122UuidGenerator
  */
-class Rfc4122v4UuidGeneratorTest extends PHPUnit_Framework_TestCase
+class Rfc4122UuidGeneratorTest extends PHPUnit_Framework_TestCase
 {
     
     /**
-     * Test that the uuid is a RFC4122 one
+     * Test what the uuid generator accepts when no version specified
      * 
      * @return void
      *
      * @access public
      * @since Method available since Release 1.0
      */
-    public function testRfc4122()
+    public function testAcceptRfc4122NoVersion()
     {
-        $g = new UUID_Rfc4122v4UuidGenerator();
-        $r = new UUID_UuidRequirements();
-        $uuid = $g->generateUuid($r);
-        
-        $this->assertTrue($uuid instanceof UUID_Rfc4122Uuid);
-    }
-    
-    /**
-     * Test that the generator accepts the RFC4122 tag
-     * 
-     * @return void
-     *
-     * @access public
-     * @since Method available since Release 1.0
-     */
-    public function testAcceptTagRfc4122()
-    {
-        $g = new UUID_Rfc4122v4UuidGenerator();
+        $g = new UUID_MockRfc4122UuidGenerator();
         
         $r1 = new UUID_UuidRequirements();
-        UUID_RequirementsLibrary::requestRfc4122($r1);
-        $this->assertTrue(
-            $g->getCapacities()->fulfillRequirements($r1),
-            'RFC4122v4 accepts RFC4122 tag'
-        );
+        $this->assertTrue($g->getCapacities()->fulfillRequirements($r1));
         
         $r2 = new UUID_UuidRequirements();
-        UUID_RequirementsLibrary::requestRfc4122($r2, 4);
-        $this->assertTrue(
-            $g->getCapacities()->fulfillRequirements($r2),
-            'RFC4122v4 accepts RFC4122v4 tag'
-        );
+        UUID_RequirementsLibrary::requestRfc4122($r2);
+        $this->assertTrue($g->getCapacities()->fulfillRequirements($r2));
         
         $r3 = new UUID_UuidRequirements();
-        UUID_RequirementsLibrary::requestRfc4122($r3, 1);
-        $this->assertFalse(
-            $g->getCapacities()->fulfillRequirements($r3),
-            'RFC4122v4 does not accept other versions'
-        );
+        UUID_RequirementsLibrary::requestRfc4122($r3, 4);
+        $this->assertFalse($g->getCapacities()->fulfillRequirements($r3));
     }
     
     /**
-     * Test that the generator accepts the unguessable generation
+     * Test what the uuid generator accepts when a version is specified
      * 
      * @return void
      *
      * @access public
      * @since Method available since Release 1.0
      */
-    public function testAcceptUnguessableGeneration()
+    public function testAcceptRfc4122WithVersion()
     {
-        $g = new UUID_Rfc4122v4UuidGenerator();
+        $g = new UUID_MockRfc4122UuidGenerator(4);
         
-        $r = new UUID_UuidRequirements();
-        UUID_RequirementsLibrary::requestUnguessable($r);
+        $r1 = new UUID_UuidRequirements();
+        $this->assertTrue($g->getCapacities()->fulfillRequirements($r1));
         
-        $this->assertTrue($g->getCapacities()->fulfillRequirements($r));
+        $r2 = new UUID_UuidRequirements();
+        UUID_RequirementsLibrary::requestRfc4122($r2);
+        $this->assertTrue($g->getCapacities()->fulfillRequirements($r2));
+        
+        $r3 = new UUID_UuidRequirements();
+        UUID_RequirementsLibrary::requestRfc4122($r3, 4);
+        $this->assertTrue($g->getCapacities()->fulfillRequirements($r3));
+        
+        $r4 = new UUID_UuidRequirements();
+        UUID_RequirementsLibrary::requestRfc4122($r4, 1);
+        $this->assertFalse($g->getCapacities()->fulfillRequirements($r4));
     }
     
     /**
-     * Test that the generator accepts the 128bits size parameter
+     * Test what the uuid generator accepts size parameter only of 128
      * 
      * @return void
      *
      * @access public
      * @since Method available since Release 1.0
      */
-    public function testAcceptSizeParameter()
+    public function testAcceptSize()
     {
-        $g = new UUID_Rfc4122v4UuidGenerator();
+        $g = new UUID_MockRfc4122UuidGenerator();
+        
+        $r1 = new UUID_UuidRequirements();
+        UUID_RequirementsLibrary::requestSize($r1, 127);
+        $this->assertFalse($g->getCapacities()->fulfillRequirements($r1));
+        
+        $r2 = new UUID_UuidRequirements();
+        UUID_RequirementsLibrary::requestSize($r2, 128);
+        $this->assertTrue($g->getCapacities()->fulfillRequirements($r2));
+        
+        $r3 = new UUID_UuidRequirements();
+        UUID_RequirementsLibrary::requestSize($r3, 129);
+        $this->assertFalse($g->getCapacities()->fulfillRequirements($r3));
+    }
+    
+    /**
+     * Test what the uuid generator still forwards tag requests
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testTagForwarded()
+    {
+        $g = new UUID_MockRfc4122UuidGenerator();
         
         $r = new UUID_UuidRequirements();
-        UUID_RequirementsLibrary::requestSize($r, 128);
+        $r->addTag('bla');
+        $this->assertFalse($g->getCapacities()->fulfillRequirements($r));
         
+        $g->addTag('bla');
         $this->assertTrue($g->getCapacities()->fulfillRequirements($r));
     }
 }
