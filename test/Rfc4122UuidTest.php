@@ -71,7 +71,8 @@ require_once realpath(__DIR__) . '/../uuid/Rfc4122Uuid.php';
 class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
 {
     
-    const RFC4122_LAYOUT_REGEXP = "([0-9a-fA-F]{8})-([0-9a-fA-F]{4})-([0-9a-fA-F]{4})-([0-9a-fA-F]{2})([0-9a-fA-F]{2})-([0-9a-fA-F]{12})";
+    const RFC4122_LAYOUT_REGEXP
+        = "[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}";
     const UUID_SCHEME = 'uuid';
     
     /**
