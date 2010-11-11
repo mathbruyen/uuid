@@ -55,6 +55,9 @@ require_once realpath(__DIR__) . '/Rfc4122UuidGenerator.php';
 // Load uuid class
 require_once realpath(__DIR__) . '/../uuid/Rfc4122Uuid.php';
 
+// Load requirements library
+require_once realpath(__DIR__) . '/../requirements/RequirementsLibrary.php';
+
 // Load Math_BigInteger package
 require_once 'Math/BigInteger.php';
 
@@ -127,6 +130,7 @@ class UUID_Rfc4122v4UuidGenerator extends UUID_Rfc4122UuidGenerator
     {
         parent::__construct();
         $this->addTag(self::TAG_RFC4122_RANDOM_UUID);
+        UUID_RequirementsLibrary::allowUnguessable($this->getCapacities());
     }
     
     /**

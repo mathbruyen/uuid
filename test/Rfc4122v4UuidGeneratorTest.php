@@ -112,6 +112,24 @@ class Rfc4122v4UuidGeneratorTest extends PHPUnit_Framework_TestCase
     }
     
     /**
+     * Test that the generator accepts the unguessable generation
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testAcceptUnguessableGeneration()
+    {
+        $g = new UUID_Rfc4122v4UuidGenerator();
+        
+        $r = new UUID_UuidRequirements();
+        UUID_RequirementsLibrary::requestUnguessable($r);
+        
+        $this->assertTrue($g->getCapacities()->fulfillRequirements($r));
+    }
+    
+    /**
      * Test that the generator accepts the 128bits size parameter
      * 
      * @return void
