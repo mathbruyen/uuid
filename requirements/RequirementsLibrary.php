@@ -65,7 +65,7 @@ require_once realpath(__DIR__) . '/StringParameterDescription.php';
  * capacities objects. Use of these methods is recommended in order to have
  * consistent parameter names and tags in the system.
  * 
- * It can be used to defined parameters related to the raw integer size of the UUID.
+ * It can be used to define parameters related to the raw integer size of the UUID.
  * With an array minimum and maximum values can be defined, as a set listing all
  * possible values and if the parameter is required or not. All of these parameters
  * are optional. An example using all parameters:
@@ -86,7 +86,7 @@ require_once realpath(__DIR__) . '/StringParameterDescription.php';
  * UUID_RequirementsLibrary::requestSize($r, 80);
  * </code>
  * 
- * It can be used to defined parameters related to the name based generation
+ * It can be used to define parameters related to the name based generation
  * <code>
  * $gc = new UUID_GeneratorCapacities();
  * UUID_RequirementsLibrary::allowName($gc);
@@ -98,7 +98,7 @@ require_once realpath(__DIR__) . '/StringParameterDescription.php';
  * UUID_RequirementsLibrary::requestName($r, 'bla');
  * </code>
  * 
- * It can be used to defined parameters related to the unguessable generation.
+ * It can be used to define parameters related to the unguessable generation.
  * Generators informs that their UUIDs are unguessable.
  * <code>
  * $gc = new UUID_GeneratorCapacities();
@@ -108,6 +108,20 @@ require_once realpath(__DIR__) . '/StringParameterDescription.php';
  * <code>
  * $r = new UUID_UuidRequirements();
  * UUID_RequirementsLibrary::requestUnguessable($r);
+ * </code>
+ * 
+ * It can be used to defined tags related to RFC4122 generation. Generators informs
+ * that their UUIDs follows RFC4122, possibily with a specific version. The version
+ * in the following example is not required:
+ * <code>
+ * $gc = new UUID_GeneratorCapacities();
+ * UUID_RequirementsLibrary::allowRfc4122($gc, UUID_Rfc4122Uuid::VERSION_RANDOM);
+ * </code>
+ * The requirements can be then defined using the related method: (the version is not
+ * required, and if not specified any version is accepted)
+ * <code>
+ * $r = new UUID_UuidRequirements();
+ * UUID_RequirementsLibrary::requestRfc4122($r, UUID_Rfc4122Uuid::VERSION_RANDOM);
  * </code>
  * 
  * @category  Structures
