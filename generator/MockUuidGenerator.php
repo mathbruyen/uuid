@@ -146,7 +146,7 @@ class UUID_MockUuidGenerator extends UUID_BaseUuidGenerator
      */
     public function __call($name, $arguments)
     {
-        call_user_func_array("parent::{$name}", $arguments);
+        return call_user_func_array("parent::{$name}", $arguments);
     }
 }
 
