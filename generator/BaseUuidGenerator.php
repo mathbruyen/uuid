@@ -73,6 +73,12 @@ require_once realpath(__DIR__) . '/../requirements/GeneratorCapacities.php';
 abstract class UUID_BaseUuidGenerator implements UUID_UuidGenerator
 {
     
+    /**
+     * The capacities that the generator has
+     *
+     * @var UUID_GeneratorCapacities
+     * @access private
+     */
     private $_capacities;
     
     /**
