@@ -145,9 +145,9 @@ class UUID_TagFilterUuidFactoryHook implements UUID_UuidFactoryHook
      * of all sets of identifiers corresponding to each of these tags, and to the
      * original set of possible ids.
      * 
-     * @param UUID_UuidRequirements $generator   the generator beeing added
-     * @param array                 $possibleIds the ids that are still acceptable up
-     *                                              to now
+     * @param UUID_UuidRequirements $requirements the generator beeing added
+     * @param array                 $possibleIds  the ids that are still acceptable
+     *                                              up to now
      * 
      * @return array a subarray of the one given in parameters, where clearly
      *                  incompatible generators have been pruned

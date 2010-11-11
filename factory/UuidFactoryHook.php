@@ -114,9 +114,9 @@ interface UUID_UuidFactoryHook
      * discovers that no generator fulfill the requirements it can simply return an
      * empty array, but no exception are allowed.
      * 
-     * @param UUID_UuidRequirements $generator   the generator beeing added
-     * @param array                 $possibleIds the ids that are still acceptable up
-     *                                              to now
+     * @param UUID_UuidRequirements $requirements the generator beeing added
+     * @param array                 $possibleIds  the ids that are still acceptable
+     *                                              up to now
      * 
      * @return array a subarray of the one given in parameters, where clearly
      *                  incompatible generators have been pruned

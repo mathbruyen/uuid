@@ -243,7 +243,9 @@ class UUID_UuidFactory
             throw new UUID_Exception('Impossible to instantiate the generator', $e);
         }
         if (!($instance instanceof UUID_UuidGenerator)) {
-            throw new UUID_Exception('The class instantiated is not a UUID generator');
+            throw new UUID_Exception(
+                'The class instantiated is not a UUID generator'
+            );
         }
         return $instance;
     }
