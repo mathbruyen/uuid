@@ -87,7 +87,7 @@ interface UUID_UuidGenerator
      * Generates a new UUID respecting the requirements or throw an exception if
      * requirements cannot be achieved.
      * 
-     * If requirements comply with generarot's capacities (or equivalently if
+     * If requirements comply with generator's capacities (or equivalently if
      * capacities fulfill requirements) should not throw exception. It is still
      * allowed to throw exception, but only if there is a configuration problem. If
      * an exception is thrown after capacities were checked, it thus means a
