@@ -95,6 +95,18 @@ require_once realpath(__DIR__) . '/StringParameterDescription.php';
  * UUID_RequirementsLibrary::requestName($r, 'bla');
  * </code>
  * 
+ * It can be used to defined parameters related to the unguessable generation.
+ * Generators informs that their UUIDs are unguessable.
+ * <code>
+ * $gc = new UUID_GeneratorCapacities();
+ * UUID_RequirementsLibrary::allowUnguessable($gc);
+ * </code>
+ * The requirements can be then defined using the related method:
+ * <code>
+ * $r = new UUID_UuidRequirements();
+ * UUID_RequirementsLibrary::requestUnguessable($r);
+ * </code>
+ * 
  * @category  Structures
  * @package   UUID
  * @author    Mathieu Bruyen <code@mais-h.eu>
