@@ -83,6 +83,18 @@ require_once realpath(__DIR__) . '/StringParameterDescription.php';
  * UUID_RequirementsLibrary::requestSize($r, 80);
  * </code>
  * 
+ * It can be used to defined parameters related to the name based generation
+ * <code>
+ * $gc = new UUID_GeneratorCapacities();
+ * UUID_RequirementsLibrary::allowName($gc);
+ * </code>
+ * The requirements can be then defined using the related method (here we set the
+ * name used for generation to "bla"):
+ * <code>
+ * $r = new UUID_UuidRequirements();
+ * UUID_RequirementsLibrary::requestName($r, 'bla');
+ * </code>
+ * 
  * @category  Structures
  * @package   UUID
  * @author    Mathieu Bruyen <code@mais-h.eu>
@@ -94,7 +106,7 @@ require_once realpath(__DIR__) . '/StringParameterDescription.php';
  */
 class UUID_RequirementsLibrary
 {
-    
+
     /**
      * Tag for name based generators
      *
@@ -270,7 +282,7 @@ class UUID_RequirementsLibrary
      * @since Method available since Release 1.0
      * @see UUID_RequirementsLibrary::setName()
      */
-    public static function setNameBased($capacities, $required = true)
+    public static function allowName($capacities, $required = true)
     {
         $capacities->addTag(self::TAG_NAME_BASED);
         $pd = new UUID_StringParameterDescription();
@@ -292,9 +304,9 @@ class UUID_RequirementsLibrary
      *
      * @access public
      * @since Method available since Release 1.0
-     * @see UUID_RequirementsLibrary::setNameBased()
+     * @see UUID_RequirementsLibrary::allowName()
      */
-    public static function setName($requirements, $name)
+    public static function requestName($requirements, $name)
     {
         $requirements->addTag(self::TAG_NAME_BASED);
         $requirements->addParameter(self::PARAMETER_NAME_NAME, $name);
@@ -317,8 +329,8 @@ class UUID_RequirementsLibrary
      *
      * @access public
      * @since Method available since Release 1.0
-     * @see UUID_RequirementsLibrary::setNameBased()
-     * @see UUID_RequirementsLibrary::setName()
+     * @see UUID_RequirementsLibrary::allowBased()
+     * @see UUID_RequirementsLibrary::requestName()
      */
     public static function extractName($requirements)
     {

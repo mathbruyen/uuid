@@ -366,14 +366,14 @@ class RequirementsLibraryTest extends PHPUnit_Framework_TestCase
         $r = new UUID_UuidRequirements();
         $gc = new UUID_GeneratorCapacities();
         
-        UUID_RequirementsLibrary::setNameBased($gc);
+        UUID_RequirementsLibrary::allowName($gc);
         
         $this->assertFalse(
             $gc->fulfillRequirements($r),
             'The name parameter is required'
         );
         
-        UUID_RequirementsLibrary::setName($r, 'bla');
+        UUID_RequirementsLibrary::requestName($r, 'bla');
         
         $this->assertTrue(
             $gc->fulfillRequirements($r),
@@ -395,14 +395,14 @@ class RequirementsLibraryTest extends PHPUnit_Framework_TestCase
     {
         $r = new UUID_UuidRequirements();
         $gc = new UUID_GeneratorCapacities();
-        UUID_RequirementsLibrary::setNameBased($gc, false);
+        UUID_RequirementsLibrary::allowName($gc, false);
         
         $this->assertTrue(
             $gc->fulfillRequirements($r),
             'Name parameter is not required'
         );
         
-        UUID_RequirementsLibrary::setName($r, 'bla');
+        UUID_RequirementsLibrary::requestName($r, 'bla');
         
         $this->assertTrue(
             $gc->fulfillRequirements($r),
@@ -422,7 +422,7 @@ class RequirementsLibraryTest extends PHPUnit_Framework_TestCase
     {
         $name = 'bla';
         $r = new UUID_UuidRequirements();
-        UUID_RequirementsLibrary::setName($r, $name);
+        UUID_RequirementsLibrary::requestName($r, $name);
         $this->assertEquals(
             $name,
             UUID_RequirementsLibrary::extractName($r),
