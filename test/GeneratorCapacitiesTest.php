@@ -211,6 +211,25 @@ class GeneratorCapacitiesTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($gc->fulfillRequirements($r));
         $this->assertFalse($r->complyWithCapacities($gc));
     }
+    
+    /**
+     * Tests that tags are returned
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testTagsReturned()
+    {
+        $tags = array('bla', 'foo');
+        $gc = new UUID_GeneratorCapacities();
+        foreach ($tags as $tag) {
+            $gc->addTag($tag);
+        }
+        
+        $this->assertEquals($tags, $gc->getTags());
+    }
 }
 
 /*
