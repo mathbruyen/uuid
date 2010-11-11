@@ -444,6 +444,45 @@ class RequirementsLibraryTest extends PHPUnit_Framework_TestCase
         $r = new UUID_UuidRequirements();
         UUID_RequirementsLibrary::extractName($r);
     }
+    
+    /**
+     * Test that an unguessable generator accepts both guessable and unguessable
+     * generation
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testUnguessableGenerator()
+    {
+        $gc = new UUID_GeneratorCapacities();
+        UUID_RequirementsLibrary::allowUnguessable($gc);
+        
+        $r = new UUID_UuidRequirements();
+        $this->assertTrue($gc->fulfillRequirements($r));
+        
+        UUID_RequirementsLibrary::requestUnguessable($r);
+        $this->assertTrue($gc->fulfillRequirements($r));
+    }
+    
+    /**
+     * Test that an non-unguessable generator does not accept both unguessable
+     * generation
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testUnguessableRequirements()
+    {
+        $gc = new UUID_GeneratorCapacities();
+        
+        $r = new UUID_UuidRequirements();
+        UUID_RequirementsLibrary::requestUnguessable($r);
+        $this->assertFalse($gc->fulfillRequirements($r));
+    }
 }
 
 /*

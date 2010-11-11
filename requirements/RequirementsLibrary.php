@@ -106,13 +106,19 @@ require_once realpath(__DIR__) . '/StringParameterDescription.php';
  */
 class UUID_RequirementsLibrary
 {
-
     /**
      * Tag for name based generators
      *
      * @var string
      */
     const TAG_NAME_BASED = 'name_based';
+    
+    /**
+     * Tag for unguessable generation
+     *
+     * @var string
+     */
+    const TAG_UNGUESSABLE = 'unguessable';
     
     /**
      * Parameter name for raw integer size
@@ -280,7 +286,7 @@ class UUID_RequirementsLibrary
      *
      * @access public
      * @since Method available since Release 1.0
-     * @see UUID_RequirementsLibrary::setName()
+     * @see UUID_RequirementsLibrary::requestName()
      */
     public static function allowName($capacities, $required = true)
     {
@@ -339,6 +345,46 @@ class UUID_RequirementsLibrary
             throw new UUID_Exception('The name parameter is not present');
         }
         return $parameters[self::PARAMETER_NAME_NAME];
+    }
+    
+    /**
+     * Enable unguessable UUID generator
+     * 
+     * The generator ensures that it can produce unguessable UUIDs.
+     * 
+     * @param UUID_GeneratorCapacities $capacities the capacities of the generator
+     * 
+     * @return UUID_GeneratorCapacities the capacities, just for chaining purpose
+     *                                  (the original object is modified)
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     * @see UUID_RequirementsLibrary::requestUnguessable()
+     */
+    public static function allowUnguessable($capacities)
+    {
+        $capacities->addTag(self::TAG_UNGUESSABLE);
+        return $capacities;
+    }
+    
+    /**
+     * Requires that the UUID generated is unguessable
+     * 
+     * The requirements then specify that the UUID generated must be unguessable.
+     * 
+     * @param UUID_UuidRequirements $requirements the requirements
+     * 
+     * @return UUID_UuidRequirements the requirements, just for chaining purpose
+     *                                  (the original object is modified)
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     * @see UUID_RequirementsLibrary::allowUnguessable()
+     */
+    public static function requestUnguessable($requirements)
+    {
+        $requirements->addTag(self::TAG_UNGUESSABLE);
+        return $requirements;
     }
 }
 
