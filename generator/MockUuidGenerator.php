@@ -84,7 +84,7 @@ class UUID_MockUuidGenerator extends UUID_BaseUuidGenerator
      * @access public
      * @since Method available since Release 1.0
      */
-    public function __construct()
+    public function __construct($capacities = null)
     {
         call_user_func_array("parent::__construct", func_get_args());
     }
