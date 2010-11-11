@@ -467,8 +467,7 @@ class RequirementsLibraryTest extends PHPUnit_Framework_TestCase
     }
     
     /**
-     * Test that an non-unguessable generator does not accept both unguessable
-     * generation
+     * Test that an non-unguessable generator does not accept unguessable generation
      * 
      * @return void
      *
@@ -482,6 +481,133 @@ class RequirementsLibraryTest extends PHPUnit_Framework_TestCase
         $r = new UUID_UuidRequirements();
         UUID_RequirementsLibrary::requestUnguessable($r);
         $this->assertFalse($gc->fulfillRequirements($r));
+    }
+    
+    /**
+     * Test that an RFC4122 generator with no version accepts both RFC4122 and
+     * non-RFC4122 generation
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testRfc4122GeneratorNoVersion()
+    {
+        $gc = new UUID_GeneratorCapacities();
+        UUID_RequirementsLibrary::allowRfc4122($gc);
+        
+        $r = new UUID_UuidRequirements();
+        $this->assertTrue($gc->fulfillRequirements($r));
+        
+        UUID_RequirementsLibrary::requestRfc4122($r);
+        $this->assertTrue($gc->fulfillRequirements($r));
+    }
+    
+    /**
+     * Test that an non-RFC4122 generator does not accept RFC4122 generation
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testRfc4122RequirementsNoVersion()
+    {
+        $gc = new UUID_GeneratorCapacities();
+        
+        $r = new UUID_UuidRequirements();
+        UUID_RequirementsLibrary::requestRfc4122($r);
+        $this->assertFalse($gc->fulfillRequirements($r));
+    }
+    
+    /**
+     * Test that an RFC4122 generator with a version accepts both RFC4122 with and
+     * without version and non-RFC4122 generation
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testRfc4122GeneratorVersion()
+    {
+        $gc = new UUID_GeneratorCapacities();
+        UUID_RequirementsLibrary::allowRfc4122($gc, 4);
+        
+        $r1 = new UUID_UuidRequirements();
+        $this->assertTrue($gc->fulfillRequirements($r1));
+        
+        UUID_RequirementsLibrary::requestRfc4122($r1);
+        $this->assertTrue($gc->fulfillRequirements($r1));
+        
+        $r2 = new UUID_UuidRequirements();
+        UUID_RequirementsLibrary::requestRfc4122($r2, 4);
+        $this->assertTrue($gc->fulfillRequirements($r2));
+        
+        $r3 = new UUID_UuidRequirements();
+        UUID_RequirementsLibrary::requestRfc4122($r3, 1);
+        $this->assertFalse($gc->fulfillRequirements($r3));
+    }
+    
+    /**
+     * Test that RFC4122 tag for capacities only accept integer versions
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testRfc4122CapacitiesTagNoInt()
+    {
+        $this->setExpectedException('UUID_Exception');
+        $gc = new UUID_GeneratorCapacities();
+        UUID_RequirementsLibrary::allowRfc4122($gc, 'bla');
+    }
+    
+    /**
+     * Test that RFC4122 tag for requirements only accept integer versions
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testRfc4122RequirementsTagNoInt()
+    {
+        $this->setExpectedException('UUID_Exception');
+        $r = new UUID_UuidRequirements();
+        UUID_RequirementsLibrary::requestRfc4122($r, 'bla');
+    }
+    
+    /**
+     * Test that RFC4122 tag for capacities do not accept negative versions
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testRfc4122CapacitiesTagNegative()
+    {
+        $this->setExpectedException('UUID_Exception');
+        $gc = new UUID_GeneratorCapacities();
+        UUID_RequirementsLibrary::allowRfc4122($gc, -4);
+    }
+    
+    /**
+     * Test that RFC4122 tag for requirements do not accept negatiove versions
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testRfc4122RequirementsTagNegative()
+    {
+        $this->setExpectedException('UUID_Exception');
+        $r = new UUID_UuidRequirements();
+        UUID_RequirementsLibrary::requestRfc4122($r, -4);
     }
 }
 

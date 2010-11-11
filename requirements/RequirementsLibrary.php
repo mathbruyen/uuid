@@ -49,6 +49,9 @@
  * @since     File available since Release 1.0
  */
 
+// Load exception class
+require_once realpath(__DIR__) . '/../util/Exception.php';
+
 // Load integer parameters
 require_once realpath(__DIR__) . '/IntegerParameterDescription.php';
 
@@ -124,6 +127,13 @@ class UUID_RequirementsLibrary
      * @var string
      */
     const TAG_NAME_BASED = 'name_based';
+    
+    /**
+     * Tag for RFC4122 generators
+     *
+     * @var string
+     */
+    const TAG_RFC4122 = 'rfc4122';
     
     /**
      * Tag for unguessable generation
@@ -397,6 +407,81 @@ class UUID_RequirementsLibrary
     {
         $requirements->addTag(self::TAG_UNGUESSABLE);
         return $requirements;
+    }
+    
+    /**
+     * Enable RFC4122 UUID generator
+     * 
+     * The generator ensures that it can produce RFC4122 UUIDs. The version can be
+     * specified too and in that case a second tag is added.
+     * 
+     * @param UUID_GeneratorCapacities $capacities the capacities of the generator
+     * @param int                      $version    the version generated if specified
+     * 
+     * @return UUID_GeneratorCapacities the capacities, just for chaining purpose
+     *                                  (the original object is modified)
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     * @see UUID_RequirementsLibrary::requestRfc4122()
+     */
+    public static function allowRfc4122($capacities, $version = null)
+    {
+        $capacities->addTag(self::TAG_RFC4122);
+        if ($version !== null) {
+            $capacities->addTag(self::_makeRfc4122VersionSpecificTag($version));
+        }
+        return $capacities;
+    }
+    
+    /**
+     * Requires that the UUID generated follows RFC4122
+     * 
+     * The requirements then specify that the UUID generated must follow RFC4122. The
+     * version can optionnaly be specified.
+     * 
+     * @param UUID_UuidRequirements $requirements the requirements
+     * @param int                   $version      the version generated if specified
+     * 
+     * @return UUID_UuidRequirements the requirements, just for chaining purpose
+     *                                  (the original object is modified)
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     * @see UUID_RequirementsLibrary::allowRfc4122()
+     */
+    public static function requestRfc4122($requirements, $version = null)
+    {
+        $requirements->addTag(self::TAG_RFC4122);
+        if ($version !== null) {
+            $requirements->addTag(self::_makeRfc4122VersionSpecificTag($version));
+        }
+        return $requirements;
+    }
+    
+    /**
+     * Makes a version specific tag for RFC4122 generation
+     * 
+     * Version is just checked to be an integer greater than 0 but not that it is
+     * actually an existing version.
+     * 
+     * @param int $version the version used to create the tag
+     * 
+     * @return string the tag corresponding to the version
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     * @see UUID_RequirementsLibrary::allowUnguessable()
+     */
+    private static function _makeRfc4122VersionSpecificTag($version)
+    {
+        if (!is_int($version)) {
+            throw new UUID_Exception('The version must be an integer');
+        }
+        if ($version < 0) {
+            throw new UUID_Exception('The version must be greater than zero');
+        }
+        return self::TAG_RFC4122 . 'v' . $version;
     }
 }
 
