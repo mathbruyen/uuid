@@ -50,13 +50,13 @@
  */
 
 // Load parent class
-require_once realpath(__DIR__) . '/Rfc4122UuidGenerator.php';
+require_once realpath(__DIR__ . '/Rfc4122UuidGenerator.php');
 
 // Load uuid class
-require_once realpath(__DIR__) . '/../uuid/Rfc4122Uuid.php';
+require_once realpath(__DIR__ . '/../uuid/Rfc4122Uuid.php');
 
 // Load requirements library
-require_once realpath(__DIR__) . '/../requirements/RequirementsLibrary.php';
+require_once realpath(__DIR__ . '/../requirements/RequirementsLibrary.php');
 
 // Load Math_BigInteger package
 require_once 'Math/BigInteger.php';

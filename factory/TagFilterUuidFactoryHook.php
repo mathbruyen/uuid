@@ -50,7 +50,7 @@
  */
 
 // Parent interface
-require_once realpath(__DIR__) . '/UuidFactoryHook.php';
+require_once realpath(__DIR__ . '/UuidFactoryHook.php');
 
 /**
  * Class representing UUID factory hook that filters generators based on tags they

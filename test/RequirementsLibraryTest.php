@@ -53,13 +53,13 @@
 ini_set('error_reporting', E_ALL | E_STRICT);
 
 // Insert the tested class
-require_once realpath(__DIR__) . '/../requirements/RequirementsLibrary.php';
+require_once realpath(__DIR__ . '/../requirements/RequirementsLibrary.php');
 
 // Insert the uuid requirements class
-require_once realpath(__DIR__) . '/../requirements/UuidRequirements.php';
+require_once realpath(__DIR__ . '/../requirements/UuidRequirements.php');
 
 // Insert the generator capacities class
-require_once realpath(__DIR__) . '/../requirements/GeneratorCapacities.php';
+require_once realpath(__DIR__ . '/../requirements/GeneratorCapacities.php');
 
 /**
  * Testing set for the requirements library

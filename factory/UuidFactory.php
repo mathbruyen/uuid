@@ -50,16 +50,16 @@
  */
 
 // Exception class
-require_once realpath(__DIR__) . '/../util/Exception.php';
+require_once realpath(__DIR__ . '/../util/Exception.php');
 
 // Generator interface
-require_once realpath(__DIR__) . '/../generator/UuidGenerator.php';
+require_once realpath(__DIR__ . '/../generator/UuidGenerator.php');
 
 // Generator capacities
-require_once realpath(__DIR__) . '/../requirements/GeneratorCapacities.php';
+require_once realpath(__DIR__ . '/../requirements/GeneratorCapacities.php');
 
 // Uuid requirements
-require_once realpath(__DIR__) . '/../requirements/UuidRequirements.php';
+require_once realpath(__DIR__ . '/../requirements/UuidRequirements.php');
 
 /**
  * Factory generating UUIDs

@@ -50,13 +50,13 @@
  */
 
 // Load exception class
-require_once realpath(__DIR__) . '/../util/Exception.php';
+require_once realpath(__DIR__ . '/../util/Exception.php');
 
 // Load integer parameters
-require_once realpath(__DIR__) . '/IntegerParameterDescription.php';
+require_once realpath(__DIR__ . '/IntegerParameterDescription.php');
 
 // Load string parameters
-require_once realpath(__DIR__) . '/StringParameterDescription.php';
+require_once realpath(__DIR__ . '/StringParameterDescription.php');
 
 /**
  * Library for defining consistently tags and parameters

@@ -53,7 +53,7 @@
 ini_set('error_reporting', E_ALL | E_STRICT);
 
 // Insert the tested class
-require_once realpath(__DIR__) . '/../requirements/StringParameterDescription.php';
+require_once realpath(__DIR__ . '/../requirements/StringParameterDescription.php');
 
 /**
  * Testing set for the string parameter description
