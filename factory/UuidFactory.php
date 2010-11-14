@@ -92,6 +92,14 @@ class UUID_UuidFactory
     const NO_GENERATOR_MESSAGE = 'No generator corresponds to the requirements';
     
     /**
+     * The default factory
+     *
+     * @var array
+     * @access private
+     */
+    private static $_factory = null;
+    
+    /**
      * The list of generator instances
      *
      * @var array
@@ -216,6 +224,27 @@ class UUID_UuidFactory
             }
         }
         throw new UUID_Exception(self::NO_GENERATOR_MESSAGE);
+    }
+    
+    /**
+     * Returns the default factory
+     * 
+     * The factory that is returned here is used as the default one. Any hook and
+     * generator added in that one will be used for most of generation. However you
+     * may want to have a different factory for other purposes so the constructor is
+     * not private and you can instantiate another one.
+     * 
+     * @return UUID_UuidFactory the default factory
+     * 
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public static function get()
+    {
+        if (self::$_factory === null) {
+            self::$_factory = new UUID_UuidFactory();
+        }
+        return self::$_factory;
     }
     
     /**
