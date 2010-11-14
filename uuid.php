@@ -4,11 +4,6 @@
 
 /**
  * Loading and initialization of the UUID package
- *
- * This script loads all the required classes and initialize
- * the factory to a default configuration that can then be
- * overriden. The package can then be used to generate Uuids that
- * follow RFC4122.
  * 
  * PHP version 5
  *
@@ -53,6 +48,36 @@
  * @link      http://www.mais-h.eu/doc/index.php/UUID_php_package
  * @since     File available since Release 1.0
  */
+
+// Exception class
+require_once realpath(__DIR__ . '/util/Exception.php');
+
+// Uuid interface
+require_once realpath(__DIR__ . '/uuid/Uuid.php');
+
+// Uuid requirements
+require_once realpath(__DIR__ . '/requirements/UuidRequirements.php');
+
+// Uuid factory
+require_once realpath(__DIR__ . '/factory/UuidFactory.php');
+
+// Uuid factory hook filtering on tags
+require_once realpath(__DIR__ . '/factory/TagFilterUuidFactoryHook.php');
+
+// Random RFC4122 generator
+require_once realpath(__DIR__ . '/generator/Rfc4122v4UuidGenerator.php');
+
+// Requirements library
+require_once realpath(__DIR__ . '/requirements/RequirementsLibrary.php');
+
+// Takes the default factory to customize it
+$factory = UUID_UuidFactory::get();
+
+// Add hooks
+$factory->addHook(new UUID_TagFilterUuidFactoryHook());
+
+// Add generators
+$factory->addGenerator(100, 'UUID_Rfc4122v4UuidGenerator');
 
 /*
  * Local variables:
