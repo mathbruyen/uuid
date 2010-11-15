@@ -354,64 +354,115 @@ class RequirementsLibraryTest extends PHPUnit_Framework_TestCase
     /**
      * Test name based requirements with no parameters
      * 
-     * By default name is required
+     * By default namespace is not required.
      * 
      * @return void
      *
      * @access public
      * @since Method available since Release 1.0
      */
-    public function testNameRequirementsNoParameters()
+    public function testNameRequirementsNsDefault()
     {
-        $r = new UUID_UuidRequirements();
+        $r1 = new UUID_UuidRequirements();
+        $r2 = new UUID_UuidRequirements();
         $gc = new UUID_GeneratorCapacities();
         
         UUID_RequirementsLibrary::allowName($gc);
         
         $this->assertFalse(
-            $gc->fulfillRequirements($r),
+            $gc->fulfillRequirements($r1),
             'The name parameter is required'
         );
         
-        UUID_RequirementsLibrary::requestName($r, 'bla');
+        UUID_RequirementsLibrary::requestName($r1, 'bla');
         
         $this->assertTrue(
-            $gc->fulfillRequirements($r),
-            'Requirements have name parameter'
+            $gc->fulfillRequirements($r1),
+            'Requirements have name parameter and namespace is not required'
+        );
+        
+        UUID_RequirementsLibrary::requestName($r2, 'bla', 'foo');
+        
+        $this->assertTrue(
+            $gc->fulfillRequirements($r2),
+            'Requirements have name and namespace parameters'
         );
     }
     
     /**
-     * Test name requirements with not required parameter
-     * 
-     * Requirements without name are accepted as well as with.
+     * Test name based requirements with unrequired namespace
      * 
      * @return void
      *
      * @access public
      * @since Method available since Release 1.0
      */
-    public function testNameRequirementsNotRequired()
+    public function testNameRequirementsNsNotRequired()
     {
-        $r = new UUID_UuidRequirements();
+        $r1 = new UUID_UuidRequirements();
+        $r2 = new UUID_UuidRequirements();
         $gc = new UUID_GeneratorCapacities();
+        
         UUID_RequirementsLibrary::allowName($gc, false);
         
-        $this->assertTrue(
-            $gc->fulfillRequirements($r),
-            'Name parameter is not required'
+        $this->assertFalse(
+            $gc->fulfillRequirements($r1),
+            'The name parameter is required'
         );
         
-        UUID_RequirementsLibrary::requestName($r, 'bla');
+        UUID_RequirementsLibrary::requestName($r1, 'bla');
         
         $this->assertTrue(
-            $gc->fulfillRequirements($r),
-            'Name is provided'
+            $gc->fulfillRequirements($r1),
+            'Requirements have name parameter and namespace is not required'
+        );
+        
+        UUID_RequirementsLibrary::requestName($r2, 'bla', 'foo');
+        
+        $this->assertTrue(
+            $gc->fulfillRequirements($r2),
+            'Requirements have name and namespace parameters'
         );
     }
     
     /**
-     * Test that the name extracted is the one given originally
+     * Test name requirements with required namespace
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testNameRequirementsNsRequired()
+    {
+        $r1 = new UUID_UuidRequirements();
+        $r2 = new UUID_UuidRequirements();
+        $gc = new UUID_GeneratorCapacities();
+        
+        UUID_RequirementsLibrary::allowName($gc, true);
+        
+        $this->assertFalse(
+            $gc->fulfillRequirements($r1),
+            'The name parameter is required'
+        );
+        
+        UUID_RequirementsLibrary::requestName($r1, 'bla');
+        
+        $this->assertFalse(
+            $gc->fulfillRequirements($r1),
+            'Requirements have no namespace parameter which is required'
+        );
+        
+        UUID_RequirementsLibrary::requestName($r2, 'bla', 'foo');
+        
+        $this->assertTrue(
+            $gc->fulfillRequirements($r2),
+            'Requirements have name and namespace parameters'
+        );
+    }
+    
+    /**
+     * Tests that the name extracted is the one given originally
      * 
      * @return void
      *
@@ -428,6 +479,43 @@ class RequirementsLibraryTest extends PHPUnit_Framework_TestCase
             UUID_RequirementsLibrary::extractName($r),
             'The name extracted must be the one set originally'
         );
+    }
+    
+    /**
+     * Test that the namespace extracted is the one given originally
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testNamespaceExtracted()
+    {
+        $name = 'bla';
+        $namespace = 'foo';
+        $r = new UUID_UuidRequirements();
+        UUID_RequirementsLibrary::requestName($r, $name, $namespace);
+        $this->assertEquals(
+            $namespace,
+            UUID_RequirementsLibrary::extractNamespace($r),
+            'The namespace extracted must be the one set originally'
+        );
+    }
+    
+    /**
+     * Test that an exception is throwed if the namespace is not present
+     * 
+     * @return void
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function testNamespaceExtractedNotPresent()
+    {
+        $this->setExpectedException('UUID_Exception');
+        $r = new UUID_UuidRequirements();
+        UUID_RequirementsLibrary::requestName($r, 'foo');
+        UUID_RequirementsLibrary::extractNamespace($r);
     }
     
     /**

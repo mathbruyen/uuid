@@ -86,7 +86,8 @@ require_once realpath(__DIR__ . '/StringParameterDescription.php');
  * UUID_RequirementsLibrary::requestSize($r, 80);
  * </code>
  * 
- * It can be used to define parameters related to the name based generation
+ * It can be used to define parameters related to the name based generation using
+ * the default namespace from the generator:
  * <code>
  * $gc = new UUID_GeneratorCapacities();
  * UUID_RequirementsLibrary::allowName($gc);
@@ -96,6 +97,17 @@ require_once realpath(__DIR__ . '/StringParameterDescription.php');
  * <code>
  * $r = new UUID_UuidRequirements();
  * UUID_RequirementsLibrary::requestName($r, 'bla');
+ * </code>
+ * but the generator can require to have the namespace
+ * <code>
+ * $gc = new UUID_GeneratorCapacities();
+ * UUID_RequirementsLibrary::allowName($gc, true);
+ * </code>
+ * and in any case the requirements can specify the namespace that MUST be used if
+ * present (here namespace is "foo" and name is "bla")
+ * <code>
+ * $r = new UUID_UuidRequirements();
+ * UUID_RequirementsLibrary::requestName($r, 'bla', 'foo');
  * </code>
  * 
  * It can be used to define parameters related to the unguessable generation.
@@ -169,6 +181,13 @@ class UUID_RequirementsLibrary
      * @var string
      */
     const PARAMETER_NAME_NAME = 'name';
+    
+    /**
+     * Parameter namespace for name in name based UUIDs
+     *
+     * @var string
+     */
+    const PARAMETER_NAME_NAMESPACE = 'namespace';
     
     /**
      * Allow size parameter in a UUID generator
@@ -310,11 +329,11 @@ class UUID_RequirementsLibrary
      * Enable name based UUID generator
      * 
      * The generator ensures that it can produce name based UUIDs. It is possible to
-     * tell if the name is required or not.
+     * tell if the namespace is required or if an internal default one is available.
      * 
      * @param UUID_GeneratorCapacities $capacities the capacities that are to accept
      *                                              the size parameter
-     * @param boolean                  $required   if the name is required in
+     * @param boolean                  $nsRequired if the namespace is required in
      *                                              requirements
      * 
      * @return UUID_GeneratorCapacities the capacities, just for chaining purpose
@@ -324,11 +343,16 @@ class UUID_RequirementsLibrary
      * @since Method available since Release 1.0
      * @see UUID_RequirementsLibrary::requestName()
      */
-    public static function allowName($capacities, $required = true)
+    public static function allowName($capacities, $nsRequired = false)
     {
         $capacities->addTag(self::TAG_NAME_BASED);
-        $pd = new UUID_StringParameterDescription();
-        $capacities->addParameter(self::PARAMETER_NAME_NAME, $pd, $required);
+        
+        $pd1 = new UUID_StringParameterDescription();
+        $capacities->addParameter(self::PARAMETER_NAME_NAME, $pd1);
+        
+        $pd2 = new UUID_StringParameterDescription();
+        $capacities->addParameter(self::PARAMETER_NAME_NAMESPACE, $pd2, $nsRequired);
+        
         return $capacities;
     }
     
@@ -336,10 +360,12 @@ class UUID_RequirementsLibrary
      * Requires that the UUID is name based
      * 
      * The requirements then specify that the UUID generated must be a name based one
-     * with the name given in parameters
+     * with the name given in parameters, and possibly the given namespace.
      * 
      * @param UUID_UuidRequirements $requirements the requirements
      * @param string                $name         the name used to generate the UUID
+     * @param string                $namespace    the namespace used to generate the
+     *                                              UUID
      * 
      * @return UUID_UuidRequirements the requirements, just for chaining purpose
      *                                  (the original object is modified)
@@ -348,10 +374,13 @@ class UUID_RequirementsLibrary
      * @since Method available since Release 1.0
      * @see UUID_RequirementsLibrary::allowName()
      */
-    public static function requestName($requirements, $name)
+    public static function requestName($requirements, $name, $namespace = null)
     {
         $requirements->addTag(self::TAG_NAME_BASED);
         $requirements->addParameter(self::PARAMETER_NAME_NAME, $name);
+        if ($namespace !== null) {
+            $requirements->addParameter(self::PARAMETER_NAME_NAMESPACE, $namespace);
+        }
         return $requirements;
     }
     
@@ -360,9 +389,7 @@ class UUID_RequirementsLibrary
      * 
      * The name parameter in requirements is returned if present, otherwise an
      * exception is throwed. Requirements should be first checked agains capacities
-     * that have been passed through setNameBased method. Even if it has been the
-     * case, an exception can be throwed: if the parameter was optional. In that case
-     * the generator must use a default name.
+     * that have been passed through setNameBased method.
      * 
      * @param UUID_UuidRequirements $requirements the requirements
      * 
@@ -381,6 +408,34 @@ class UUID_RequirementsLibrary
             throw new UUID_Exception('The name parameter is not present');
         }
         return $parameters[self::PARAMETER_NAME_NAME];
+    }
+    
+    /**
+     * Returns the namespace parameter from requirements
+     * 
+     * The namespace parameter in requirements is returned if present, otherwise an
+     * exception is throwed. Requirements should be first checked agains capacities
+     * that have been passed through setNameBased method. Even if it has been the
+     * case, an exception can be throwed: if the parameter was optional. In that case
+     * the generator must use a default namespace.
+     * 
+     * @param UUID_UuidRequirements $requirements the requirements
+     * 
+     * @return string the requested namespace used to generate a name based UUID
+     * @throw UUID_Exception if the namespace was not previously specified
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     * @see UUID_RequirementsLibrary::allowBased()
+     * @see UUID_RequirementsLibrary::requestName()
+     */
+    public static function extractNamespace($requirements)
+    {
+        $parameters = $requirements->getParameters();
+        if (!array_key_exists(self::PARAMETER_NAME_NAMESPACE, $parameters)) {
+            throw new UUID_Exception('The namespace parameter is not present');
+        }
+        return $parameters[self::PARAMETER_NAME_NAMESPACE];
     }
     
     /**
