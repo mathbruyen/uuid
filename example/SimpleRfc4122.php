@@ -49,12 +49,12 @@
  * @since     File available since Release 1.0
  */
 
-// Exception class
+// Load package
 require_once realpath(__DIR__ . '/../uuid.php');
 
 try {
     $r = new UUID_UuidRequirements();
-    UUID_RequirementsLibrary::requestRfc4122($r, 4);
+    UUID_RequirementsLibrary::requestRfc4122($r);
     $uuid = UUID_UuidFactory::get()->generate($r);
     
     echo $uuid;
