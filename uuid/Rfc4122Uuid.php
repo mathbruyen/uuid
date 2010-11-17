@@ -240,7 +240,7 @@ class UUID_Rfc4122Uuid implements UUID_Uuid
      * 
      * echo $uuid->toURN(), "\n";
      * 
-     * echo $uuid->toRawInt()->toHex(), "\n";
+     * echo $uuid->toInt()->toHex(), "\n";
      * </code>
      * 
      * @param Math_BigInteger $timestamp     the timestamp
@@ -360,7 +360,7 @@ class UUID_Rfc4122Uuid implements UUID_Uuid
      * excected large width. Math_BigInteger comes from the PEAR package
      * of the same name. The size of this integer is 128.
      * <code>
-     * echo $uuid->toRawInt()->toHex();
+     * echo $uuid->toInt()->toHex();
      * //echo "f81d4fae7dec11d0a76500a0c91e6bf6"
      * </code>
      *
@@ -368,9 +368,9 @@ class UUID_Rfc4122Uuid implements UUID_Uuid
      *
      * @access public
      * @since Method available since Release 1.0
-     * @see UUID_Rfc4122Uuid::getRawIntBitNumber()
+     * @see UUID_Rfc4122Uuid::getIntSize()
      */
-    public function toRawInt()
+    public function toInt()
     {
         if ($this->_integerRepresentation === null) {
             $this->_integerRepresentation = $this->_makeIntegerRepresentation();
@@ -412,7 +412,7 @@ class UUID_Rfc4122Uuid implements UUID_Uuid
      * @since Method available since Release 1.0
      * @see UUID_Rfc4122Uuid::INTEGER_SIZE
      */
-    public function getRawIntBitNumber()
+    public function getIntSize()
     {
         return self::INTEGER_SIZE;
     }

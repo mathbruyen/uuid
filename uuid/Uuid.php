@@ -66,7 +66,7 @@
  * 
  * There is a way to retrive it as an integer:
  * <code>
- * $intRessource = $uuid->toRawInt();
+ * $intRessource = $uuid->toInt();
  * 
  * $bitString = $intRessource->toBits();
  * $hexString = $intRessource->toHex();
@@ -76,11 +76,11 @@
  * identifiers for example.
  * 
  * Finally there are two utility methods indicating the layout of the UUID through
- * its variant returned as a binary string, and the size of its integer
- * representation in number of bits.
+ * its variant returned as a binary string, and the size maximal of its integer
+ * representation in number of bits (including leading 0s).
  * <code>
  * $variant = $uuid->getVariant();
- * $intSize = $uuid->getRawIntBitNumber();
+ * $intSize = $uuid->getIntSize();
  * </code>
  * 
  * @category  Structures
@@ -150,21 +150,22 @@ interface UUID_Uuid
      *
      * @access public
      * @since Method available since Release 1.0
-     * @see UUID_Uuid::getRawIntBitNumber()
+     * @see UUID_Uuid::getIntSize()
      */
-    public function toRawInt();
+    public function toInt();
     
     /**
      * Returns the size of the raw integer of the UUID
      * 
-     * Indicates the size of the raw integer in number of bits.
+     * Indicates the size of the raw integer in number of bits. Leading 0s must be
+     * counted.
      *
      * @return int the size of the raw integer in number of bits
      *
      * @access public
      * @since Method available since Release 1.0
      */
-    public function getRawIntBitNumber();
+    public function getIntSize();
 }
 
 /*

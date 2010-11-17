@@ -129,11 +129,11 @@ class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
     {
         $uuid = $this->_generateRandomUuid(UUID_Rfc4122Uuid::VERSION_RANDOM);
         
-        $this->assertTrue($uuid->toRawInt() instanceof Math_BigInteger);
+        $this->assertTrue($uuid->toInt() instanceof Math_BigInteger);
         
-        $max = new Math_BigInteger(str_repeat('1', $uuid->getRawIntBitNumber()), 2);
+        $max = new Math_BigInteger(str_repeat('1', $uuid->getIntSize()), 2);
         
-        $this->assertTrue($uuid->toRawInt()->compare($max) <= 0);
+        $this->assertTrue($uuid->toInt()->compare($max) <= 0);
     }
     
     /**
@@ -151,7 +151,7 @@ class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
     {
         $uuid = $this->_generateRandomUuid(UUID_Rfc4122Uuid::VERSION_RANDOM);
         
-        $this->assertEquals(128, $uuid->getRawIntBitNumber());
+        $this->assertEquals(128, $uuid->getIntSize());
     }
     
     /**
@@ -245,7 +245,7 @@ class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
             $u = new UUID_Rfc4122Uuid($timestamp, $clockSequence, $nodeId, $version);
             $u->__toString();
             $u->toURN();
-            $u->toRawInt();
+            $u->toInt();
         } catch (UUID_Exception $e) {
             $this->fail();
         }
@@ -283,7 +283,7 @@ class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
             $u = new UUID_Rfc4122Uuid($timestamp, $clockSequence, $nodeId, $version);
             $u->__toString();
             $u->toURN();
-            $u->toRawInt();
+            $u->toInt();
         } catch (UUID_Exception $e) {
             $this->fail();
         }
@@ -321,7 +321,7 @@ class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
             $u = new UUID_Rfc4122Uuid($timestamp, $clockSequence, $nodeId, $version);
             $u->__toString();
             $u->toURN();
-            $u->toRawInt();
+            $u->toInt();
         } catch (UUID_Exception $e) {
             $this->fail();
         }
@@ -359,7 +359,7 @@ class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
             $u = new UUID_Rfc4122Uuid($timestamp, $clockSequence, $nodeId, $version);
             $u->__toString();
             $u->toURN();
-            $u->toRawInt();
+            $u->toInt();
         } catch (UUID_Exception $e) {
             $this->fail();
         }
@@ -397,7 +397,7 @@ class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
             $u = new UUID_Rfc4122Uuid($timestamp, $clockSequence, $nodeId, $version);
             $u->__toString();
             $u->toURN();
-            $u->toRawInt();
+            $u->toInt();
         } catch (UUID_Exception $e) {
             $this->fail();
         }
@@ -435,7 +435,7 @@ class Rfc4122UuidTest extends PHPUnit_Framework_TestCase
             $u = new UUID_Rfc4122Uuid($timestamp, $clockSequence, $nodeId, $version);
             $u->__toString();
             $u->toURN();
-            $u->toRawInt();
+            $u->toInt();
         } catch (UUID_Exception $e) {
             $this->fail();
         }
