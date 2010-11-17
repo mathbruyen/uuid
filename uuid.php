@@ -64,9 +64,6 @@ require_once realpath(__DIR__ . '/factory/UuidFactory.php');
 // Uuid factory hook filtering on tags
 require_once realpath(__DIR__ . '/factory/TagFilterUuidFactoryHook.php');
 
-// Random RFC4122 generator
-require_once realpath(__DIR__ . '/generator/Rfc4122v4UuidGenerator.php');
-
 // Requirements library
 require_once realpath(__DIR__ . '/requirements/RequirementsLibrary.php');
 
@@ -77,7 +74,15 @@ $factory = UUID_UuidFactory::get();
 $factory->addHook(new UUID_TagFilterUuidFactoryHook());
 
 // Add generators
-$factory->addGenerator(100, 'UUID_Rfc4122v4UuidGenerator');
+// Random RFC4122 generator
+require_once realpath(__DIR__ . '/generator/Rfc4122v4UuidGenerator.php');
+$factory->addGenerator(1200, 'UUID_Rfc4122v4UuidGenerator');
+// Sha-1 name based RFC4122 generator
+require_once realpath(__DIR__ . '/generator/Sha1NameRfc4122UuidGenerator.php');
+$factory->addGenerator(1500, 'UUID_Sha1NameRfc4122UuidGenerator');
+// Md5 name based RFC4122 generator
+require_once realpath(__DIR__ . '/generator/Md5NameRfc4122UuidGenerator.php');
+$factory->addGenerator(1100, 'UUID_Md5NameRfc4122UuidGenerator');
 
 /*
  * Local variables:
