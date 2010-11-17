@@ -82,9 +82,9 @@ class UUID_MockRfc4122UuidGenerator extends UUID_Rfc4122UuidGenerator
      * @access public
      * @since Method available since Release 1.0
      */
-    public function __construct($version = null)
+    public function __construct($version)
     {
-        call_user_func_array("parent::__construct", func_get_args());
+        parent::__construct($version);
     }
     
     /**

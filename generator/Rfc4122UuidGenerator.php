@@ -77,6 +77,14 @@ abstract class UUID_Rfc4122UuidGenerator extends UUID_BaseUuidGenerator
 {
     
     /**
+     * The version of generated UUIDs
+     *
+     * @var array
+     * @access private
+     */
+    private $_version;
+    
+    /**
      * Constructor
      *
      * Calls the parent constructor and add the RFC4122 UUID tag.
@@ -88,16 +96,13 @@ abstract class UUID_Rfc4122UuidGenerator extends UUID_BaseUuidGenerator
      * @access public
      * @since Method available since Release 1.0
      */
-    public function __construct($version = null)
+    public function __construct($version)
     {
         parent::__construct();
+        $this->_version = $version;
         
         // RFC4122 tag
-        if ($version === null) {
-            UUID_RequirementsLibrary::allowRfc4122($this->getCapacities());
-        } else {
-            UUID_RequirementsLibrary::allowRfc4122($this->getCapacities(), $version);
-        }
+        UUID_RequirementsLibrary::allowRfc4122($this->getCapacities(), $version);
         
         // Size parameter
         UUID_RequirementsLibrary::allowSize(
@@ -107,6 +112,19 @@ abstract class UUID_Rfc4122UuidGenerator extends UUID_BaseUuidGenerator
                 'required' => false,
             )
         );
+    }
+    
+    /**
+     * Returns the version of generated UUIDs
+     * 
+     * @return int the version of generated UUIDs
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    public function getVersion()
+    {
+        return $this->_version;
     }
 }
 

@@ -79,27 +79,18 @@ class Rfc4122UuidGeneratorTest extends PHPUnit_Framework_TestCase
 {
     
     /**
-     * Test what the uuid generator accepts when no version specified
+     * Test what the version returned is the one given
      * 
      * @return void
      *
      * @access public
      * @since Method available since Release 1.0
      */
-    public function testAcceptRfc4122NoVersion()
+    public function testVersion()
     {
-        $g = new UUID_MockRfc4122UuidGenerator();
-        
-        $r1 = new UUID_UuidRequirements();
-        $this->assertTrue($g->getCapacities()->fulfillRequirements($r1));
-        
-        $r2 = new UUID_UuidRequirements();
-        UUID_RequirementsLibrary::requestRfc4122($r2);
-        $this->assertTrue($g->getCapacities()->fulfillRequirements($r2));
-        
-        $r3 = new UUID_UuidRequirements();
-        UUID_RequirementsLibrary::requestRfc4122($r3, 4);
-        $this->assertFalse($g->getCapacities()->fulfillRequirements($r3));
+        $version = 4;
+        $g = new UUID_MockRfc4122UuidGenerator($version);
+        $this->assertEquals($version, $g->getVersion());
     }
     
     /**
@@ -110,7 +101,7 @@ class Rfc4122UuidGeneratorTest extends PHPUnit_Framework_TestCase
      * @access public
      * @since Method available since Release 1.0
      */
-    public function testAcceptRfc4122WithVersion()
+    public function testAcceptRfc4122()
     {
         $g = new UUID_MockRfc4122UuidGenerator(4);
         
@@ -140,7 +131,7 @@ class Rfc4122UuidGeneratorTest extends PHPUnit_Framework_TestCase
      */
     public function testAcceptSize()
     {
-        $g = new UUID_MockRfc4122UuidGenerator();
+        $g = new UUID_MockRfc4122UuidGenerator(4);
         
         $r1 = new UUID_UuidRequirements();
         UUID_RequirementsLibrary::requestSize($r1, 127);
@@ -165,7 +156,7 @@ class Rfc4122UuidGeneratorTest extends PHPUnit_Framework_TestCase
      */
     public function testTagForwarded()
     {
-        $g = new UUID_MockRfc4122UuidGenerator();
+        $g = new UUID_MockRfc4122UuidGenerator(4);
         
         $r = new UUID_UuidRequirements();
         $r->addTag('bla');

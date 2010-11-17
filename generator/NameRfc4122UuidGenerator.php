@@ -91,18 +91,6 @@ abstract class UUID_NameRfc4122UuidGenerator extends UUID_Rfc4122UuidGenerator
      * @access private
      */
     private $_namespace;
- 
-    /**
-     * The version of generated UUIDs
-     *
-     * The default namespace is used for requirements that do not specify any. It can
-     * be absent and in that case the generator do not accept requirements without
-     * namespace.
-     *
-     * @var array
-     * @access private
-     */
-    private $_version;
     
     /**
      * Initializes the parent class, version and namespace if provided
@@ -121,8 +109,6 @@ abstract class UUID_NameRfc4122UuidGenerator extends UUID_Rfc4122UuidGenerator
     public function __construct($version, $namespace = null)
     {
         parent::__construct($version);
-        
-        $this->_version = $version;
         
         $this->_namespace = $namespace;
         $nsRequired = ($namespace === null);
@@ -168,7 +154,7 @@ abstract class UUID_NameRfc4122UuidGenerator extends UUID_Rfc4122UuidGenerator
             + UUID_Rfc4122Uuid::CLOCK_SEQUENCE_BIT_NUMBER,
             UUID_Rfc4122Uuid::NODE_ID_BIT_NUMBER
         );
-        $version = $this->_version;
+        $version = $this->getVersion();
         
         return new UUID_Rfc4122Uuid($timestamp, $clockSequence, $nodeId, $version);
     }
